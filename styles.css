@@ -1,25 +1,90 @@
+/* Styles pour les boutons et sections de documents */
+.loan-docs-container {
+	margin: 32px auto;
+	max-width: 480px;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+	padding: 24px 20px 18px 20px;
+}
+.tabs {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 18px;
+	justify-content: center;
+}
+.tab-btn {
+	background: #f2f2f2;
+	border: none;
+	border-radius: 6px 6px 0 0;
+	padding: 10px 22px;
+	font-size: 1.08rem;
+	cursor: pointer;
+	color: #333;
+	transition: background 0.2s, color 0.2s;
+}
+.tab-btn.active {
+	background: #2e7d32;
+	color: #fff;
+	font-weight: bold;
+}
+.doc-list {
+	background: #f7fafb;
+	border-radius: 0 0 8px 8px;
+	padding: 18px 16px 10px 16px;
+	margin-bottom: 0;
+}
+.doc-list h3 {
+	margin-top: 0;
+	font-size: 1.35rem;
+	color: #2e7d32;
+}
+.doc-list p {
+	font-size: 1.18rem;
+}
+.doc-list li {
+	margin-bottom: 10px;
+	font-size: 1.13rem;
+}
+.doc-list ul ul li {
+	font-size: 1.11rem;
+}
+.doc-list li strong {
+	font-size: 1.13rem;
+}
+.doc-list ul {
+	margin: 0 0 0 18px;
+	padding: 0;
+}
+.doc-list li {
+	margin-bottom: 7px;
+	font-size: 1.04rem;
+}
 /* Réduction de la hauteur de la barre de navigation */
 .nav-bar {
-	padding-top: 0.2rem !important;
-	padding-bottom: 0.2rem !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
 .nav-bar__inner {
-	min-height: 48px !important;
+	min-height: 24px !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
 .nav-brand__logo {
-	max-height: 36px !important;
-	height: 36px !important;
+	max-height: 40px !important;
+	height: 40px !important;
 }
 /* Vert doux et rouge doux pour la règle 35% */
+/* Couleurs plus claires pour l'aparté Regla 35% */
 .affordability-status-light {
-	background: #eafbe7 !important;
+	background: #eafbe7 !important; /* vert clair comme sur la capture */
 	color: #2e7d32 !important;
 	border: 1px solid #b6e2c6;
 }
 .affordability-status-bad {
-	background: #fff0f0 !important;
+	background: #fff6f6 !important; /* rouge très clair */
 	color: #c62828 !important;
-	border: 1px solid #f5bdbd;
+	border: 1px solid #f7dede;
 }
 /* Style pour le tableau d'amortissement façon maquette */
 .amort-table {
@@ -141,7 +206,7 @@ body::before {
 }
 
 .nav-brand__logo {
-	height: 70px;
+	height: 40px;
 	width: auto;
 	display: block;
 }

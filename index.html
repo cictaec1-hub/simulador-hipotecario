@@ -157,4 +157,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
+    <div class="loan-docs-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showDocs('joven')">Menor de 35 años</button>
+            <button class="tab-btn" onclick="showDocs('standard')">Crédito hipotecario general</button>
+        </div>
+
+        <div id="joven" class="doc-list">
+            <h3>Contenido – Menos de 35 años</h3>
+            <p><strong>Financiación hasta 95%–100% (Aval ICO / Hipoteca Joven)</strong></p>
+            <ul>
+                <li>🧾 <strong>Identidad y residencia</strong></li>
+                <ul>
+                    <li>[ ] DNI / NIE en vigor</li>
+                    <li>[ ] Certificado de empadronamiento (histórico de 2 años, requerido para aval ICO)</li>
+                </ul>
+                <li>📑 <strong>Requisitos específicos jóvenes</strong></li>
+                <ul>
+                    <li>[ ] Certificado de no titularidad de vivienda (Nota Simple Negativa del Registro)</li>
+                    <li>[ ] Declaración de patrimonio (activos inferiores a 100.000 €)</li>
+                </ul>
+                <li>💼 <strong>Ingresos y situación laboral</strong></li>
+                <ul>
+                    <li>[ ] 3 últimas nóminas</li>
+                    <li>[ ] Contrato de trabajo (preferiblemente indefinido)</li>
+                    <li>[ ] Informe de Vida Laboral actualizado</li>
+                    <li>[ ] Última declaración de la renta (IRPF)</li>
+                </ul>
+                <li>🏠 <strong>Documentación del inmueble</strong></li>
+                <ul>
+                    <li>[ ] Nota Simple actualizada (menos de 3 meses)</li>
+                </ul>
+            </ul>
+        </div>
+
+        <div id="standard" class="doc-list" style="display:none">
+            <h3>🔵 Contenido – 35 años o más / Perfil estándar</h3>
+            <p><strong>Financiación hasta 80% (Vivienda habitual)</strong></p>
+            <ul>
+                <li>🧾 <strong>Identidad y solvencia</strong></li>
+                <ul>
+                    <li>[ ] DNI / NIE en vigor</li>
+                    <li>[ ] 3 últimos extractos bancarios completos (todas las cuentas)</li>
+                    <li>[ ] Relación de préstamos y créditos vigentes (auto, consumo, tarjetas, etc.)</li>
+                </ul>
+                <li>💼 <strong>Ingresos y patrimonio</strong></li>
+                <ul>
+                    <li>[ ] 3 últimas nóminas</li>
+                    <li>[ ] Contrato de trabajo</li>
+                    <li>[ ] Última declaración de la renta (IRPF)</li>
+                    <li>[ ] Justificante de fondos propios (20% del precio + aproximadamente 10% de gastos)</li>
+                </ul>
+                <li>👨‍💼 <strong>Si eres autónomo</strong></li>
+                <ul>
+                    <li>[ ] Declaraciones trimestrales y anuales de IVA e IRPF</li>
+                    <li>[ ] Certificado de estar al corriente con Hacienda</li>
+                    <li>[ ] Certificado de estar al corriente con la Seguridad Social</li>
+                </ul>
+                <li>🏠 <strong>Documentación del inmueble</strong></li>
+                <ul>
+                    <li>[ ] Nota Simple</li>
+                    <li>[ ] Certificado de eficiencia energética</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
 </html>

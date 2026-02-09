@@ -1,17 +1,15 @@
 /**
  * Script pour le Simulateur Hypothécaire FA GRUP
- * Gère le calcul manuel de la Tasa, l'amortissement et la viabilité (35%)
+ * Gère le calcul de la Mensualité, l'amortissement et la règle des 35%
  */
 
 // --- 1. SÉLECTEURS D'ÉLÉMENTS ---
-
-// Inputs de saisie
 const amountInput = document.getElementById("amount");
 const amountRangeInput = document.getElementById("amountRange");
 const downPaymentAmountInput = document.getElementById("downPaymentAmount");
 const downPaymentPercentInput = document.getElementById("downPaymentPercent");
 const monthsInput = document.getElementById("months");
-const tasaInput = document.getElementById("tin"); // Utilise l'ID 'tin' du HTML pour la Tasa
+const tasaInput = document.getElementById("tin"); 
 const fixedCostsInput = document.getElementById("fixedCosts");
 const monthlyIncomeInput = document.getElementById("monthlyIncome");
 const loanNeededInput = document.getElementById("loanNeeded");
@@ -28,167 +26,132 @@ const affordabilityStatusEl = document.getElementById("affordabilityStatus");
 const affordabilityLabelEl = document.getElementById("affordabilityLabel");
 const affordabilityValueEl = document.getElementById("affordabilityValue");
 
-// Tableau d'amortissement
 const scheduleBody = document.getElementById("scheduleBody");
-
-// Boutons
 const recalcButton = document.getElementById("recalc");
-const resetButton = document.getElementById("reset");
 
-// --- 2. FONCTIONS UTILITAIRES ---
+// --- 2. FONCTIONS DE CALCUL ---
 
-// Formate les nombres en devise Euro
 const formatCurrency = (value) =>
     new Intl.NumberFormat("es-ES", {
         style: "currency",
         currency: "EUR",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
     }).format(value);
 
-// Calcule la mensualité selon la formule de l'amortissement français
-const computeMonthlyPayment = (principal, monthlyRate, months) => {
-    if (principal <= 0 || months <= 0) return 0;
-    if (monthlyRate === 0) return principal / months;
-    const factor = Math.pow(1 + monthlyRate, months);
-    return (principal * monthlyRate * factor) / (factor - 1);
+// FORMULE MATHÉMATIQUE : Amortissement Français
+const computeMonthlyPayment = (P, annualRate, n) => {
+    if (P <= 0 || n <= 0) return 0;
+    const i = (annualRate / 100) / 12; // Taux mensuel décimal
+    if (i === 0) return P / n;
+    
+    // M = P * [ i * (1 + i)^n ] / [ (1 + i)^n – 1 ]
+    const factor = Math.pow(1 + i, n);
+    return (P * i * factor) / (factor - 1);
 };
 
-// Synchronise le montant de l'apport par rapport au pourcentage
-const syncDownPaymentFromPercent = () => {
-    const price = Number(amountInput.value) || 0;
-    const percent = Number(downPaymentPercentInput.value) || 0;
-    downPaymentAmountInput.value = ((percent / 100) * price).toFixed(2);
-};
-
-// Synchronise le pourcentage de l'apport par rapport au montant
-const syncDownPaymentFromAmount = () => {
-    const price = Number(amountInput.value);
-    const amount = Number(downPaymentAmountInput.value);
-    if (price > 0) {
-        downPaymentPercentInput.value = ((amount / price) * 100).toFixed(1);
-    } else {
-        downPaymentPercentInput.value = 0;
-    }
-};
-
-// --- 3. LOGIQUE PRINCIPALE ---
+// --- 3. LOGIQUE DE MISE À JOUR ---
 
 const update = () => {
-    // Récupération des valeurs
-    const amount = Number(amountInput.value) || 0;
-    const downPaymentAmount = Number(downPaymentAmountInput.value) || 0;
-    const months = Number(monthsInput.value) || 1;
-    const tasa = Number(tasaInput.value) || 0;
-    const fixedCosts = Number(fixedCostsInput.value) || 0;
-    const monthlyIncome = Number(monthlyIncomeInput.value) || 0;
+    const price = Number(amountInput.value) || 0;
+    const downPayment = Number(downPaymentAmountInput.value) || 0;
+    const totalMonths = Number(monthsInput.value) || 1;
+    const annualTasa = Number(tasaInput.value) || 0;
+    const costs = Number(fixedCostsInput.value) || 0;
+    const income = Number(monthlyIncomeInput.value) || 0;
 
-    // Calcul du capital emprunté
-    const financedAmount = Math.max(0, amount - downPaymentAmount);
-    loanNeededInput.value = financedAmount.toFixed(0);
+    // 1. Capital emprunté (Préstamo necesario)
+    const financedAmount = Math.max(0, price - downPayment);
+    loanNeededInput.value = financedAmount.toFixed(2);
 
-    // Calcul de la mensualité
-    const monthlyRate = (tasa / 100) / 12;
-    const monthlyPayment = computeMonthlyPayment(financedAmount, monthlyRate, months);
+    // 2. Calcul Mensualité
+    const monthlyPayment = computeMonthlyPayment(financedAmount, annualTasa, totalMonths);
 
-    // Mise à jour de l'affichage principal
+    // 3. Affichage résultats principaux
     monthlyPaymentEl.textContent = formatCurrency(monthlyPayment);
-    totalCostEl.textContent = formatCurrency(monthlyPayment * months + fixedCosts);
-    interestTotalEl.textContent = formatCurrency((monthlyPayment * months) - financedAmount);
-    savingsTotalEl.textContent = formatCurrency(downPaymentAmount + fixedCosts);
+    const totalRepaid = monthlyPayment * totalMonths;
+    totalCostEl.textContent = formatCurrency(totalRepaid + costs);
+    interestTotalEl.textContent = formatCurrency(totalRepaid - financedAmount);
+    savingsTotalEl.textContent = formatCurrency(downPayment + costs);
 
-    // Mise à jour de l'équivalent en années
-    if (monthsYearsEl) {
-        monthsYearsEl.textContent = (months / 12).toFixed(1);
-    }
+    if (monthsYearsEl) monthsYearsEl.textContent = (totalMonths / 12).toFixed(1);
 
-    // --- LOGIQUE RÈGLE 35% (COULEURS DYNAMIQUES) ---
-    if (monthlyIncome > 0) {
-        const ratio = (monthlyPayment / monthlyIncome) * 100;
-        // Reset des couleurs
-        affordabilityStatusEl.classList.remove("bg-success", "bg-danger", "text-white", "affordability-status-light", "affordability-status-bad");
-        if (ratio <= 35) {
-            // Vert doux : Accepté
-            affordabilityStatusEl.classList.add("affordability-status-light");
-            affordabilityLabelEl.textContent = `Aceptado (${ratio.toFixed(1)}% del ingreso)`;
-        } else {
-            // Rouge doux : Rechazado
-            affordabilityStatusEl.classList.add("affordability-status-bad");
-            affordabilityLabelEl.textContent = `Rechazado (${ratio.toFixed(1)}% del ingreso)`;
-        }
+    // 4. Règle des 35% (Viabilité)
+    if (income > 0) {
+        const ratio = (monthlyPayment / income) * 100;
+        affordabilityStatusEl.className = "status p-3 rounded text-center " + (ratio <= 35 ? "bg-success text-white" : "bg-danger text-white");
+        affordabilityLabelEl.textContent = ratio <= 35 ? "Viable (Ratio < 35%)" : "Riesgo Elevado (Ratio > 35%)";
         affordabilityValueEl.textContent = `${ratio.toFixed(1)}%`;
-    } else {
-        affordabilityStatusEl.classList.remove("bg-success", "bg-danger", "text-white");
-        affordabilityLabelEl.textContent = "Pendiente de ingreso";
-        affordabilityValueEl.textContent = "--";
     }
 
-    // --- GÉNÉRATION DU TABLEAU D'AMORTISSEMENT ---
-    renderTable(financedAmount, monthlyRate, monthlyPayment, months);
+    // 5. Tableau d'amortissement
+    renderTable(financedAmount, annualTasa, monthlyPayment, totalMonths);
 };
 
-const renderTable = (financedAmount, monthlyRate, monthlyPayment, months) => {
+const renderTable = (P, annualRate, monthlyPayment, n) => {
     scheduleBody.innerHTML = "";
-    let balance = financedAmount;
+    let balance = P;
+    const i = (annualRate / 100) / 12;
 
-    // Sécurité : on limite l'affichage à 420 lignes max (35 ans)
-    const totalRows = Math.min(months, 420);
+    for (let m = 1; m <= Math.min(n, 420); m++) {
+        const interestM = balance * i; // Ta formule : Capital x Taux/12/100
+        const principalM = monthlyPayment - interestM;
+        balance = Math.max(0, balance - principalM);
 
-    for (let i = 1; i <= totalRows; i++) {
-        const interest = balance * monthlyRate;
-        const principal = monthlyPayment - interest;
-        balance = Math.max(0, balance - principal);
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${i}</td>
+            <td>${m}</td>
             <td>${formatCurrency(monthlyPayment)}</td>
-            <td>${formatCurrency(interest)}</td>
-            <td>${formatCurrency(principal)}</td>
+            <td>${formatCurrency(interestM)}</td>
+            <td>${formatCurrency(principalM)}</td>
             <td>${formatCurrency(balance)}</td>
         `;
         scheduleBody.appendChild(row);
+        if (balance <= 0) break;
     }
 };
 
-// --- 4. ÉCOUTEURS D'ÉVÉNEMENTS ---
+// --- 4. ÉCOUTEURS ---
 
-// Inputs qui déclenchent une mise à jour immédiate
-let isSyncing = false;
-[amountInput, downPaymentAmountInput, downPaymentPercentInput, monthsInput, tasaInput, fixedCostsInput, monthlyIncomeInput].forEach(input => {
-    input.addEventListener("input", (e) => {
-        if (isSyncing) return;
-        isSyncing = true;
-        // Synchronisation bidirectionnelle sans boucle
-        if (e.target === downPaymentAmountInput) {
-            syncDownPaymentFromAmount();
-        } else if (e.target === downPaymentPercentInput) {
-            syncDownPaymentFromPercent();
-        } else if (e.target === amountInput) {
-            if (amountRangeInput) amountRangeInput.value = amountInput.value;
-            syncDownPaymentFromAmount();
-        }
-        update();
-        isSyncing = false;
-    });
-});
-
-// Slider de prix
-if (amountRangeInput) {
-    amountRangeInput.addEventListener("input", () => {
-        amountInput.value = amountRangeInput.value;
-        syncDownPaymentFromAmount();
-        update();
-    });
-}
-
-// Bouton Recalculer
-recalcButton.addEventListener("click", (e) => {
-    e.preventDefault();
+const syncInput = (e) => {
+    if (e.target === amountInput || e.target === amountRangeInput) {
+        amountInput.value = e.target.value;
+        amountRangeInput.value = e.target.value;
+        const percent = Number(downPaymentPercentInput.value);
+        downPaymentAmountInput.value = (Number(amountInput.value) * (percent / 100)).toFixed(0);
+    }
+    if (e.target === downPaymentAmountInput) {
+        const price = Number(amountInput.value);
+        downPaymentPercentInput.value = ((Number(downPaymentAmountInput.value) / price) * 100).toFixed(1);
+    }
+    if (e.target === downPaymentPercentInput) {
+        const price = Number(amountInput.value);
+        downPaymentAmountInput.value = (price * (Number(downPaymentPercentInput.value) / 100)).toFixed(0);
+    }
     update();
+};
+
+[amountInput, amountRangeInput, downPaymentAmountInput, downPaymentPercentInput, monthsInput, tasaInput, fixedCostsInput, monthlyIncomeInput].forEach(el => {
+    el.addEventListener("input", syncInput);
 });
 
-// Initialisation au chargement
-window.addEventListener("DOMContentLoaded", () => {
-    syncDownPaymentFromAmount();
-    update();
-});
+recalcButton.addEventListener("click", (e) => { e.preventDefault(); update(); });
+
+// Init
+update();
+
+// Fonction pour tes onglets Documents
+window.showDocs = function(type) {
+    const joven = document.getElementById('joven');
+    const standard = document.getElementById('standard');
+    const btns = document.querySelectorAll('.tab-btn');
+    if (type === 'joven') {
+        joven.style.display = 'block';
+        standard.style.display = 'none';
+        btns[0].classList.add('active');
+        btns[1].classList.remove('active');
+    } else {
+        joven.style.display = 'none';
+        standard.style.display = 'block';
+        btns[0].classList.remove('active');
+        btns[1].classList.add('active');
+    }
+};
