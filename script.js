@@ -100,6 +100,7 @@ const affordabilityValueEl = document.getElementById("affordabilityValue");
 
 const scheduleBody = document.getElementById("scheduleBody");
 const recalcButton = document.getElementById("recalc");
+const resetButton = document.getElementById("reset");
 
 // --- 2. FONCTIONS DE CALCUL ---
 
@@ -181,33 +182,61 @@ const renderTable = (P, annualRate, monthlyPayment, n) => {
     }
 };
 
-// --- 4. ÉCOUTEURS ---
 
+// --- VALEURS PAR DÉFAUT ---
+const defaults = {
+    amount: 180000,
+    downPayment: 20000,
+    months: 300,
+    tasa: 3.1,
+    fixedCosts: 1500,
+    income: 2600
+};
+
+// --- SYNCHRONISATION DES INPUTS ---
 const syncInput = (e) => {
     if (e.target === amountInput || e.target === amountRangeInput) {
         amountInput.value = e.target.value;
         amountRangeInput.value = e.target.value;
-        const percent = Number(downPaymentPercentInput.value);
-        downPaymentAmountInput.value = (Number(amountInput.value) * (percent / 100)).toFixed(0);
+        downPaymentAmountInput.value = (Number(amountInput.value) * (Number(downPaymentPercentInput.value)/100)).toFixed(0);
     }
     if (e.target === downPaymentAmountInput) {
-        const price = Number(amountInput.value);
-        downPaymentPercentInput.value = ((Number(downPaymentAmountInput.value) / price) * 100).toFixed(1);
+        downPaymentPercentInput.value = ((Number(downPaymentAmountInput.value)/Number(amountInput.value))*100).toFixed(1);
     }
     if (e.target === downPaymentPercentInput) {
-        const price = Number(amountInput.value);
-        downPaymentAmountInput.value = (price * (Number(downPaymentPercentInput.value) / 100)).toFixed(0);
+        downPaymentAmountInput.value = (Number(amountInput.value) * (Number(downPaymentPercentInput.value)/100)).toFixed(0);
     }
     update();
 };
 
-[amountInput, amountRangeInput, downPaymentAmountInput, downPaymentPercentInput, monthsInput, tasaInput, fixedCostsInput, monthlyIncomeInput].forEach(el => {
-    el.addEventListener("input", syncInput);
-});
+[
+    amountInput, amountRangeInput, downPaymentAmountInput, downPaymentPercentInput,
+    monthsInput, tasaInput, fixedCostsInput, monthlyIncomeInput
+].forEach(el => el.addEventListener("input", syncInput));
 
-recalcButton.addEventListener("click", (e) => { e.preventDefault(); update(); });
+// --- BOUTONS ---
+if (recalcButton) {
+    recalcButton.addEventListener("click", e => {
+        e.preventDefault();
+        update();
+    });
+}
 
-// Init
+if (resetButton) {
+    resetButton.addEventListener("click", e => {
+        e.preventDefault();
+        amountInput.value = defaults.amount;
+        amountRangeInput.value = defaults.amount;
+        downPaymentAmountInput.value = defaults.downPayment;
+        downPaymentPercentInput.value = ((defaults.downPayment / defaults.amount)*100).toFixed(1);
+        monthsInput.value = defaults.months;
+        tasaInput.value = defaults.tasa;
+        fixedCostsInput.value = defaults.fixedCosts;
+        monthlyIncomeInput.value = defaults.income;
+        update();
+    });
+}
+// --- INITIALISATION ---
 update();
 
 // Fonction pour tes onglets Documents
