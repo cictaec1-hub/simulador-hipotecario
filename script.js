@@ -1,3 +1,75 @@
+// --- TRADUCTION DYNAMIQUE ---
+const translations = {
+    es: {
+        tagline: "Simulador hipotecario profesional",
+        mainTitle: "Calcula tu cuota mensual",
+        mainDesc: "Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.",
+        inputsTitle: "Entradas principales",
+        priceLabel: "Precio de la vivienda (EUR)",
+        savingsLabel: "Tus ahorros (Entrada)",
+        loanNeededLabel: "Préstamo necesario (EUR)",
+        monthsLabel: "Plazo (meses) <small class=\"text-muted\">Años: <span id=\"monthsYears\">0</span></small>",
+        rateLabel: "Tasa anual (%)",
+        costsLabel: "Gastos de compra (EUR)",
+        incomeLabel: "Ingreso mensual total (EUR)",
+        recalcBtn: "Recalcular",
+        resetBtn: "Restablecer"
+    },
+    fr: {
+        tagline: "Simulateur hypothécaire professionnel",
+        mainTitle: "Calculez votre mensualité",
+        mainDesc: "Estimez rapidement la viabilité de votre achat en saisissant les données de base de l'opération.",
+        inputsTitle: "Entrées principales",
+        priceLabel: "Prix du bien (EUR)",
+        savingsLabel: "Votre apport (Entrée)",
+        loanNeededLabel: "Prêt nécessaire (EUR)",
+        monthsLabel: "Durée (mois) <small class=\"text-muted\">Années: <span id=\"monthsYears\">0</span></small>",
+        rateLabel: "Taux annuel (%)",
+        costsLabel: "Frais d'achat (EUR)",
+        incomeLabel: "Revenu mensuel total (EUR)",
+        recalcBtn: "Recalculer",
+        resetBtn: "Réinitialiser"
+    },
+    ca: {
+        tagline: "Simulador hipotecari professional",
+        mainTitle: "Calcula la teva quota mensual",
+        mainDesc: "Estima ràpidament la viabilitat de la teva compra introduint les dades bàsiques de l'operació.",
+        inputsTitle: "Entrades principals",
+        priceLabel: "Preu de l'habitatge (EUR)",
+        savingsLabel: "Els teus estalvis (Entrada)",
+        loanNeededLabel: "Préstec necessari (EUR)",
+        monthsLabel: "Termini (mesos) <small class=\"text-muted\">Anys: <span id=\"monthsYears\">0</span></small>",
+        rateLabel: "Taxa anual (%)",
+        costsLabel: "Despeses de compra (EUR)",
+        incomeLabel: "Ingressos mensuals totals (EUR)",
+        recalcBtn: "Recalcular",
+        resetBtn: "Restablir"
+    }
+};
+
+window.setLang = function(lang) {
+    const dict = translations[lang] || translations['es'];
+    document.documentElement.lang = lang;
+    // Changer le drapeau et le texte du menu
+    const flag = document.getElementById('current-flag');
+    const langText = document.getElementById('current-lang-text');
+    if (flag && langText) {
+        if (lang === 'fr') { flag.src = 'images/flag_fr.png'; langText.textContent = 'FR'; }
+        else if (lang === 'ca') { flag.src = 'images/flag_ca.png'; langText.textContent = 'CA'; }
+        else { flag.src = 'images/flag_es.png'; langText.textContent = 'ES'; }
+    }
+    // Traduire tous les éléments avec data-key
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (dict[key]) {
+            if (key === 'monthsLabel') {
+                el.innerHTML = dict[key];
+            } else {
+                el.textContent = dict[key];
+            }
+        }
+    });
+};
 /**
  * Script pour le Simulateur Hypothécaire FA GRUP
  * Gère le calcul de la Mensualité, l'amortissement et la règle des 35%

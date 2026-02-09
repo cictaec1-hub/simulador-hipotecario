@@ -24,8 +24,9 @@
                             <span id="current-lang-text">ES</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" onclick="setLang('fr')">FR</a></li>
+                            <!-- FR supprimé -->
                             <li><a class="dropdown-item" href="#" onclick="setLang('es')">ES</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLang('ca')">CA</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -36,22 +37,22 @@
     <main class="page container py-5">
         <section class="hero mb-5">
             <div class="text-center mb-5">
-                <span class="tagline">Simulador hipotecario profesional</span>
-                <h1 class="display-4">Calcula tu cuota mensual</h1>
-                <p class="lead">Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.</p>
+                <span class="tagline" data-key="tagline">Simulador hipotecario profesional</span>
+                <h1 class="display-4" data-key="mainTitle">Calcula tu cuota mensual</h1>
+                <p class="lead" data-key="mainDesc">Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.</p>
             </div>
 
             <div class="card shadow-sm p-4">
-                <h2 class="mb-4">Entradas principales</h2>
+                <h2 class="mb-4" data-key="inputsTitle">Entradas principales</h2>
                 <div class="inputs row g-3">
                     <div class="field col-12 col-md-4">
-                        <label for="amount">Precio de la vivienda (EUR)</label>
+                        <label for="amount" data-key="priceLabel">Precio de la vivienda (EUR)</label>
                         <input id="amount" class="form-control" type="number" value="180000" />
                         <input id="amountRange" class="range range--gold w-100 mt-2" type="range" min="20000" max="1000000" step="1000" value="180000" />
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label>Tus ahorros (Entrada)</label>
+                        <label data-key="savingsLabel">Tus ahorros (Entrada)</label>
                         <div class="input-group mb-2">
                             <input id="downPaymentAmount" class="form-control" type="number" value="20000" />
                             <span class="input-group-text">EUR</span>
@@ -63,39 +64,39 @@
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="loanNeeded">Préstamo necesario (EUR)</label>
+                        <label for="loanNeeded" data-key="loanNeededLabel">Préstamo necesario (EUR)</label>
                         <input id="loanNeeded" class="form-control" type="number" readonly />
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="months">Plazo (meses) <small class="text-muted">Años: <span id="monthsYears">0</span></small></label>
+                        <label for="months" data-key="monthsLabel">Plazo (meses) <small class="text-muted">Años: <span id="monthsYears">0</span></small></label>
                         <input id="months" class="form-control" type="number" value="300" />
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="tin">Tasa anual (%)</label>
+                        <label for="tin" data-key="rateLabel">Tasa anual (%)</label>
                         <input id="tin" class="form-control" type="number" step="0.01" value="3.1" />
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="fixedCosts">Gastos de compra (EUR)</label>
+                        <label for="fixedCosts" data-key="costsLabel">Gastos de compra (EUR)</label>
                         <input id="fixedCosts" class="form-control" type="number" value="1500" />
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="monthlyIncome">Ingreso mensual total (EUR)</label>
+                        <label for="monthlyIncome" data-key="incomeLabel">Ingreso mensual total (EUR)</label>
                         <input id="monthlyIncome" class="form-control" type="number" value="2600" />
                     </div>
                 </div>
 
                 <div class="cta mt-4">
-                    <button id="recalc" class="btn btn-primary px-4">Recalcular</button>
-                    <button id="reset" class="btn btn-outline-secondary px-4">Restablecer</button>
+                    <button id="recalc" class="btn btn-primary px-4" data-key="recalcBtn">Recalcular</button>
+                    <button id="reset" class="btn btn-outline-secondary px-4" data-key="resetBtn">Restablecer</button>
                 </div>
             </div>
         </section>
 
-        <section class="grid row g-4 mb-5">
+<section class="row g-4 mb-5">
             <div class="col-lg-7">
                 <div class="card shadow-sm p-4">
                     <h2 class="mb-4">Resultado financiero</h2>
