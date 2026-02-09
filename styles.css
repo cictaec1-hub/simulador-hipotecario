@@ -425,11 +425,12 @@ input[type="range"] {
 	border: 2px solid #fff;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-.range--gold::-moz-range-track {
-	height: 6px;
-	border-radius: 999px;
-	background: linear-gradient(90deg, #c79a1c, #f2d27a);
+.col-lg-5 > .card {
+	width: 100%;
+	min-width: 340px;
+	max-width: 480px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .range--gold::-moz-range-thumb {

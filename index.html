@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador de Crédito Hipotecario</title>
+    <title>Simulador de Crédito Hipotecario | FA Grup</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -33,21 +33,21 @@
         </div>
     </nav>
 
-    <main class="page">
-        <section class="hero">
-            <div>
+    <main class="page container py-5">
+        <section class="hero mb-5">
+            <div class="text-center mb-5">
                 <span class="tagline">Simulador hipotecario profesional</span>
-                <h1>Calcula tu cuota mensual</h1>
-                <p>Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.</p>
+                <h1 class="display-4">Calcula tu cuota mensual</h1>
+                <p class="lead">Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.</p>
             </div>
 
-            <div class="card">
-                <h2>Entradas principales</h2>
+            <div class="card shadow-sm p-4">
+                <h2 class="mb-4">Entradas principales</h2>
                 <div class="inputs row g-3">
                     <div class="field col-12 col-md-4">
                         <label for="amount">Precio de la vivienda (EUR)</label>
                         <input id="amount" class="form-control" type="number" value="180000" />
-                        <input id="amountRange" class="range range--gold" type="range" min="20000" max="1000000" step="1000" value="180000" />
+                        <input id="amountRange" class="range range--gold w-100 mt-2" type="range" min="20000" max="1000000" step="1000" value="180000" />
                     </div>
 
                     <div class="field col-12 col-md-4">
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="field col-12 col-md-4">
-                        <label for="months">Plazo (meses) <small>Años: <span id="monthsYears">0</span></small></label>
+                        <label for="months">Plazo (meses) <small class="text-muted">Años: <span id="monthsYears">0</span></small></label>
                         <input id="months" class="form-control" type="number" value="300" />
                     </div>
 
@@ -89,26 +89,26 @@
                 </div>
 
                 <div class="cta mt-4">
-                    <button id="recalc" class="btn btn-primary">Recalcular</button>
-                    <button id="reset" class="btn btn-outline-secondary">Restablecer</button>
+                    <button id="recalc" class="btn btn-primary px-4">Recalcular</button>
+                    <button id="reset" class="btn btn-outline-secondary px-4">Restablecer</button>
                 </div>
             </div>
         </section>
 
-        <section class="grid mt-3 row">
-            <div class="col-lg-8">
-                <div class="card">
-                    <h2>Resultado financiero</h2>
+        <section class="grid row g-4 mb-5">
+            <div class="col-lg-7">
+                <div class="card shadow-sm p-4">
+                    <h2 class="mb-4">Resultado financiero</h2>
                     <div class="results row g-3 text-center">
                         <div class="col-md-6">
-                            <div class="result-card p-3 border rounded">
-                                <h3>Cuota mensual</h3>
+                            <div class="result-card p-3 border rounded bg-light">
+                                <h3 class="h5">Cuota mensual</h3>
                                 <p id="monthlyPayment" class="h2 text-success">EUR 0</p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="result-card p-3 border rounded">
-                                <h3>Coste total</h3>
+                            <div class="result-card p-3 border rounded bg-light">
+                                <h3 class="h5">Coste total</h3>
                                 <p id="totalCost" class="h2">EUR 0</p>
                             </div>
                         </div>
@@ -123,11 +123,12 @@
                             <strong id="savingsTotal">EUR 0</strong>
                         </div>
                     </div>
+                    
                     <div class="mt-5">
-                        <h3>Desglose mensual</h3>
-                        <div class="table-responsive">
-                            <table class="table table-sm mt-3">
-                                <thead>
+                        <h3>Desglose mensual (Amortización)</h3>
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-hover table-sm mt-3">
+                                <thead class="table-dark sticky-top">
                                     <tr>
                                         <th>Mes</th>
                                         <th>Cuota</th>
@@ -142,12 +143,99 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-5">
-                <div class="card p-3" style="min-width:340px;">
-                    <h2>Regla 35%</h2>
-                    <div id="affordabilityStatus" class="status p-3 rounded text-center">
-                        <span id="affordabilityLabel">Pendiente</span>
-                        <br><strong id="affordabilityValue">--</strong>
+                <div class="card shadow-sm p-4 sticky-top" style="top: 20px;">
+                    <h2 class="h4 mb-3">Ratio de Endeudamiento</h2>
+                    <div id="affordabilityStatus" class="status p-4 rounded text-center border">
+                        <span id="affordabilityLabel" class="d-block mb-2 fw-bold">Pendiente</span>
+                        <strong id="affordabilityValue" class="h3">--</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-5">
+
+        <section class="loan-docs-container mb-5">
+            <h2 class="text-center mb-4">Documentación Necesaria</h2>
+            <div class="tabs d-flex justify-content-center gap-2 mb-4">
+                <button class="btn btn-outline-primary tab-btn active" onclick="showDocs('joven')">Menor de 35 años</button>
+                <button class="btn btn-outline-primary tab-btn" onclick="showDocs('standard')">Crédito hipotecario general</button>
+            </div>
+
+            <div id="joven" class="doc-list card p-4 shadow-sm">
+                <h3 class="h4 text-primary border-bottom pb-2">Perfil Joven (Aval ICO)</h3>
+                <p class="fw-bold text-muted">Financiación hasta 95%–100%</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><strong>🧾 Identidad y residencia</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] DNI / NIE en vigor</li>
+                                    <li>[ ] Certificado de empadronamiento (2 años)</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3"><strong>📑 Requisitos Aval ICO</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] Certificado de no titularidad de vivienda</li>
+                                    <li>[ ] Declaración de patrimonio (< 100.000€)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><strong>💼 Situación Laboral</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] 3 últimas nóminas y Contrato</li>
+                                    <li>[ ] Vida Laboral y Renta (IRPF)</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3"><strong>🏠 Inmueble</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] Nota Simple actualizada</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="standard" class="doc-list card p-4 shadow-sm" style="display:none">
+                <h3 class="h4 text-secondary border-bottom pb-2">Perfil General</h3>
+                <p class="fw-bold text-muted">Financiación hasta 80%</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><strong>🧾 Solvencia</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] DNI / NIE y 3 extractos bancarios</li>
+                                    <li>[ ] Listado de otros créditos vigentes</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3"><strong>💼 Ingresos</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] Nóminas, Contrato e IRPF</li>
+                                    <li>[ ] Justificante de ahorros propios (30%)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><strong>👨‍💼 Autónomos</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] Trimestrales IVA/IRPF y Vida Laboral</li>
+                                    <li>[ ] Certificados Hacienda/Seg. Social</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3"><strong>🏠 Inmueble</strong>
+                                <ul class="text-muted small">
+                                    <li>[ ] Nota Simple y Certificado Energético</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -157,68 +245,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
-    <div class="loan-docs-container">
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showDocs('joven')">Menor de 35 años</button>
-            <button class="tab-btn" onclick="showDocs('standard')">Crédito hipotecario general</button>
-        </div>
-
-        <div id="joven" class="doc-list">
-            <p><strong>Financiación hasta 95%–100% (Aval ICO / Hipoteca Joven)</strong></p>
-            <ul>
-                <li>🧾 <strong>Identidad y residencia</strong></li>
-                <ul>
-                    <li>[ ] DNI / NIE en vigor</li>
-                    <li>[ ] Certificado de empadronamiento (histórico de 2 años, requerido para aval ICO)</li>
-                </ul>
-                <li>📑 <strong>Requisitos específicos jóvenes</strong></li>
-                <ul>
-                    <li>[ ] Certificado de no titularidad de vivienda (Nota Simple Negativa del Registro)</li>
-                    <li>[ ] Declaración de patrimonio (activos inferiores a 100.000 €)</li>
-                </ul>
-                <li>💼 <strong>Ingresos y situación laboral</strong></li>
-                <ul>
-                    <li>[ ] 3 últimas nóminas</li>
-                    <li>[ ] Contrato de trabajo (preferiblemente indefinido)</li>
-                    <li>[ ] Informe de Vida Laboral actualizado</li>
-                    <li>[ ] Última declaración de la renta (IRPF)</li>
-                </ul>
-                <li>🏠 <strong>Documentación del inmueble</strong></li>
-                <ul>
-                    <li>[ ] Nota Simple actualizada (menos de 3 meses)</li>
-                </ul>
-            </ul>
-        </div>
-
-        <div id="standard" class="doc-list" style="display:none">
-            <!-- Titre supprimé comme demandé -->
-            <p><strong>Financiación hasta 80% (Vivienda habitual)</strong></p>
-            <ul>
-                <li>🧾 <strong>Identidad y solvencia</strong></li>
-                <ul>
-                    <li>[ ] DNI / NIE en vigor</li>
-                    <li>[ ] 3 últimos extractos bancarios completos (todas las cuentas)</li>
-                    <li>[ ] Relación de préstamos y créditos vigentes (auto, consumo, tarjetas, etc.)</li>
-                </ul>
-                <li>💼 <strong>Ingresos y patrimonio</strong></li>
-                <ul>
-                    <li>[ ] 3 últimas nóminas</li>
-                    <li>[ ] Contrato de trabajo</li>
-                    <li>[ ] Última declaración de la renta (IRPF)</li>
-                    <li>[ ] Justificante de fondos propios (20% del precio + aproximadamente 10% de gastos)</li>
-                </ul>
-                <li>👨‍💼 <strong>Si eres autónomo</strong></li>
-                <ul>
-                    <li>[ ] Declaraciones trimestrales y anuales de IVA e IRPF</li>
-                    <li>[ ] Certificado de estar al corriente con Hacienda</li>
-                    <li>[ ] Certificado de estar al corriente con la Seguridad Social</li>
-                </ul>
-                <li>🏠 <strong>Documentación del inmueble</strong></li>
-                <ul>
-                    <li>[ ] Nota Simple</li>
-                    <li>[ ] Certificado de eficiencia energética</li>
-                </ul>
-            </ul>
-        </div>
-    </div>
 </html>
