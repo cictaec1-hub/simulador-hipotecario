@@ -1,3 +1,8 @@
+/* Limite et scroll pour le tableau d'amortissement */
+.custom-table-container {
+	max-height: 600px;
+	overflow-y: auto;
+}
 /* Styles pour les boutons et sections de documents */
 .loan-docs-container {
 	margin: 32px auto;
