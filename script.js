@@ -15,10 +15,11 @@ function updateMonthsYears() {
     monthsYears.textContent = years + " " + yearText[lang];
 }
 
-// Mettre à jour aussi lors du changement de langue
+// --- Fonction setLang unique ---
 function setLang(lang) {
     window.currentLang = lang;
     const t = translations[lang] || translations["es"];
+
     for (const key in t) {
         const el = document.getElementById(key);
         if (el) {
@@ -29,11 +30,13 @@ function setLang(lang) {
             }
         }
     }
-    // Mettre à jour le texte du bouton langue
+
+    // Texte bouton langue
     const langText = { es: "ES", ca: "CA", fr: "FR" };
     const currentLangText = document.getElementById("current-lang-text");
     if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
-    // Traduction du bouton PDF
+
+    // Traduction bouton PDF
     const btnPdfLabel = document.getElementById("btn-pdf-label");
     const btnPdfTexts = {
         es: "Descargar el PDF del desglose",
@@ -41,20 +44,12 @@ function setLang(lang) {
         fr: "Télécharger le PDF du tableau"
     };
     if (btnPdfLabel) btnPdfLabel.textContent = btnPdfTexts[lang] || btnPdfTexts["es"];
+
     updateMonthsYears();
 }
 // --- TRADUCTION ---
 // Traduction du bouton PDF (hors setLang pour l'initialisation)
-document.addEventListener("DOMContentLoaded", function () {
-    const btnPdfLabel = document.getElementById("btn-pdf-label");
-    const lang = document.documentElement.lang || "es";
-    const btnPdfTexts = {
-        es: "Descargar el PDF del desglose",
-        ca: "Descarregar el PDF del desglossament",
-        fr: "Télécharger le PDF du tableau"
-    };
-    if (btnPdfLabel) btnPdfLabel.textContent = btnPdfTexts[lang] || btnPdfTexts["es"];
-});
+
 
 const translations = {
     es: {
@@ -378,12 +373,14 @@ function renderTable(P, annualRate, M, n) {
 
 // --- INITIALISATION & EVENTS ---
 function reset() {
-    // Réinitialisation des inputs
     amountInput.value = DEFAULTS.amount;
     amountRange.value = DEFAULTS.amount;
 
     downPaymentInput.value = DEFAULTS.downPayment;
-    downPaymentPercent.value = ((DEFAULTS.downPayment / DEFAULTS.amount) * 100).toFixed(1);
+    downPaymentPercent.value = "";
+
+    purchaseCostsInput.value = "";
+    purchaseCostsPercent.value = "";
 
     monthsInput.value = DEFAULTS.months;
     tasaInput.value = DEFAULTS.tasa;
@@ -392,18 +389,20 @@ function reset() {
     // Vider tableau
     if (scheduleBody) scheduleBody.innerHTML = "";
 
-    // Réinitialiser affichages résultats
+    // Résultats à zéro
     document.getElementById("monthlyPayment").textContent = "EUR 0,00";
     document.getElementById("totalCost").textContent = "EUR 0,00";
     document.getElementById("interestTotal").textContent = "EUR 0,00";
-    document.getElementById("savingsTotal").textContent = "EUR 0,00";
+
+    const savingsEl = document.getElementById("savingsTotal");
+    if (savingsEl) savingsEl.textContent = "EUR 0,00";
+
     document.getElementById("affordabilityValue").textContent = "--%";
     document.getElementById("affordabilityLabel").textContent = "";
 
-    document.getElementById("affordabilityStatus").className =
-        "ratio-box affordability-status-light";
+    const status = document.getElementById("affordabilityStatus");
+    if (status) status.className = "ratio-box affordability-status-light";
 
-    // Recalcul automatique
     update();
 }
 
@@ -489,7 +488,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Initialiser jsPDF (version classique)
+            // Initialiser jsPDF (UMD sécurisé)
+            if (!window.jspdf) {
+                alert("Erreur: bibliothèque PDF non chargée.");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
             // Titres dynamiques selon la langue
