@@ -1,3 +1,244 @@
+// Texte pour 'años' selon la langue
+const yearText = {
+    es: "año",
+    ca: "any",
+    fr: "an"
+};
+
+function updateMonthsYears() {
+    const monthsInput = document.getElementById("months");
+    const monthsYears = document.getElementById("months-years");
+    if (!monthsInput || !monthsYears) return;
+    const lang = window.currentLang || "es";
+    const months = parseInt(monthsInput.value) || 0;
+    const years = (months / 12).toFixed(1);
+    monthsYears.textContent = years + " " + yearText[lang];
+}
+
+// Mettre à jour aussi lors du changement de langue
+function setLang(lang) {
+    window.currentLang = lang;
+    const t = translations[lang] || translations["es"];
+    for (const key in t) {
+        const el = document.getElementById(key);
+        if (el) {
+            if (key.endsWith("-title") || key.startsWith("profile")) {
+                el.innerHTML = t[key];
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    }
+    // Mettre à jour le texte du bouton langue
+    const langText = { es: "ES", ca: "CA", fr: "FR" };
+    const currentLangText = document.getElementById("current-lang-text");
+    if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
+    updateMonthsYears();
+}
+// --- TRADUCTION ---
+const translations = {
+    es: {
+        tagline: "Simulador hipotecario Fa Grup",
+        "main-title": "Calcula tu cuota mensual",
+        "main-description": "Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.",
+        "inputs-title": "Entradas principales",
+        "label-amount": "Precio de la vivienda (EUR)",
+        "label-downpayment": "Ahorros (Entrada)",
+        "label-loanneeded": "Préstamo necesario",
+        "label-months": "Plazo (meses)",
+        "label-tin": "Tasa anual (%)",
+        "label-purchasecosts": "Gastos de compra",
+        "label-income": "Ingreso mensual neto",
+        "result-title": "Resultado financiero",
+        "label-monthlypayment": "Cuota mensual",
+        "label-totalcost": "Coste total",
+        "label-model": "modelo francés",
+        "label-interesttotal": "Interés total",
+        "amort-title": "Desglose mensual (Amortización)",
+        "th-mes": "Mes",
+        "th-cuota": "Cuota",
+        "th-interes": "Interés",
+        "th-capital": "Capital",
+        "th-saldo": "Saldo",
+        "ratio-title": "Ratio de Endeudamiento",
+        "ratio-note": "La cuota no debe superar el 35% de los ingresos netos.",
+        "profile1-title": "MENOS DE 35 AÑOS<br>Financiación hasta 95%–100% (Aval Instituto crédito oficial (ICO))",
+        "profile1-li1": "🧾 Identidad y residencia",
+        "profile1-li2": "DNI / NIE en vigor",
+        "profile1-li3": "Certificado de empadronamiento (histórico de 2 años, requerido para aval ICO)",
+        "profile1-li4": "📑 Requisitos específicos jóvenes",
+        "profile1-li5": "Certificado de no titularidad de vivienda (Nota Simple Negativa del Registro)",
+        "profile1-li6": "Declaración de patrimonio (activos inferiores a 100.000 €)",
+        "profile1-li7": "💼 Ingresos y situación laboral",
+        "profile1-li8": "3 últimas nóminas",
+        "profile1-li9": "Contrato de trabajo (preferiblemente indefinido)",
+        "profile1-li10": "Informe de Vida Laboral actualizado",
+        "profile1-li11": "Última declaración de la renta (IRPF)",
+        "profile1-li12": "🏠 Documentación del inmueble",
+        "profile1-li13": "Nota Simple actualizada (menos de 3 meses)",
+        "profile1-contact": "Contacta a tu banco",
+        "profile2-title": "CRÉDITO HIPOTECARIO GENERAL<br>Financiación hasta 80% (Vivienda habitual)",
+        "profile2-li1": "🧾 Identidad y solvencia",
+        "profile2-li2": "DNI / NIE en vigor",
+        "profile2-li3": "3 últimos extractos bancarios completos (todas las cuentas)",
+        "profile2-li4": "Relación de préstamos y créditos vigentes (auto, consumo, tarjetas, etc.)",
+        "profile2-li5": "💼 Ingresos y patrimonio",
+        "profile2-li6": "3 últimas nóminas",
+        "profile2-li7": "Contrato de trabajo",
+        "profile2-li8": "Última declaración de la renta (IRPF)",
+        "profile2-li9": "Justificante de fondos propios (20% del precio + aproximadamente 10% de gastos)",
+        "profile2-li10": "👨‍💼 Si eres autónomo",
+        "profile2-li11": "Declaraciones trimestrales y anuales de IVA e IRPF",
+        "profile2-li12": "Certificado de estar al corriente con Hacienda",
+        "profile2-li13": "Certificado de estar al corriente con la Seguridad Social",
+        "profile2-li14": "🏠 Documentación del inmueble",
+        "profile2-li15": "Nota Simple",
+        "profile2-li16": "Certificado de eficiencia energética",
+        "profile2-contact": "Contacta a tu banco"
+    },
+    ca: {
+        tagline: "Simulador hipotecari Fa Grup",
+        "main-title": "Calcula la teva quota mensual",
+        "main-description": "Estima ràpidament la viabilitat de la teva compra introduint les dades bàsiques de l'operació.",
+        "inputs-title": "Entrades principals",
+        "label-amount": "Preu de l'habitatge (EUR)",
+        "label-downpayment": "Estalvis (Entrada)",
+        "label-loanneeded": "Préstec necessari",
+        "label-months": "Termini (mesos)",
+        "label-tin": "Taxa anual (%)",
+        "label-purchasecosts": "Despeses de compra",
+        "label-income": "Ingressos mensuals nets",
+        "result-title": "Resultat financer",
+        "label-monthlypayment": "Quota mensual",
+        "label-totalcost": "Cost total",
+        "label-model": "model francès",
+        "label-interesttotal": "Interès total",
+        "amort-title": "Desglossament mensual (Amortització)",
+        "th-mes": "Mes",
+        "th-cuota": "Quota",
+        "th-interes": "Interès",
+        "th-capital": "Capital",
+        "th-saldo": "Saldo",
+        "ratio-title": "Ràtio d'endeutament",
+        "ratio-note": "La quota no ha de superar el 35% dels ingressos nets.",
+        "profile1-title": "MENYS DE 35 ANYS<br>Finançament fins al 95%–100% (Aval Institut de Crèdit Oficial (ICO))",
+        "profile1-li1": "🧾 Identitat i residència",
+        "profile1-li2": "DNI / NIE vigent",
+        "profile1-li3": "Certificat d'empadronament (històric de 2 anys, requerit per a aval ICO)",
+        "profile1-li4": "📑 Requisits específics joves",
+        "profile1-li5": "Certificat de no titularitat d'habitatge (Nota Simple Negativa del Registre)",
+        "profile1-li6": "Declaració de patrimoni (actius inferiors a 100.000 €)",
+        "profile1-li7": "💼 Ingressos i situació laboral",
+        "profile1-li8": "3 últimes nòmines",
+        "profile1-li9": "Contracte de treball (preferiblement indefinit)",
+        "profile1-li10": "Informe de Vida Laboral actualitzat",
+        "profile1-li11": "Última declaració de la renda (IRPF)",
+        "profile1-li12": "🏠 Documentació de l'immoble",
+        "profile1-li13": "Nota Simple actualitzada (menys de 3 mesos)",
+        "profile1-contact": "Contacta amb el teu banc",
+        "profile2-title": "CRÈDIT HIPOTECARI GENERAL<br>Finançament fins al 80% (Habitatge habitual)",
+        "profile2-li1": "🧾 Identitat i solvència",
+        "profile2-li2": "DNI / NIE vigent",
+        "profile2-li3": "3 últims extractes bancaris complets (tots els comptes)",
+        "profile2-li4": "Relació de préstecs i crèdits vigents (cotxe, consum, targetes, etc.)",
+        "profile2-li5": "💼 Ingressos i patrimoni",
+        "profile2-li6": "3 últimes nòmines",
+        "profile2-li7": "Contracte de treball",
+        "profile2-li8": "Última declaració de la renda (IRPF)",
+        "profile2-li9": "Justificant de fons propis (20% del preu + aproximadament 10% de despeses)",
+        "profile2-li10": "👨‍💼 Si ets autònom",
+        "profile2-li11": "Declaracions trimestrals i anuals d'IVA i IRPF",
+        "profile2-li12": "Certificat d'estar al corrent amb Hisenda",
+        "profile2-li13": "Certificat d'estar al corrent amb la Seguretat Social",
+        "profile2-li14": "🏠 Documentació de l'immoble",
+        "profile2-li15": "Nota Simple",
+        "profile2-li16": "Certificat d'eficiència energètica",
+        "profile2-contact": "Contacta amb el teu banc"
+    },
+    fr: {
+        tagline: "Simulateur hypothécaire Fa Grup",
+        "main-title": "Calculez votre mensualité",
+        "main-description": "Estimez rapidement la viabilité de votre achat en saisissant les données de base de l'opération.",
+        "inputs-title": "Données principales",
+        "label-amount": "Prix du logement (EUR)",
+        "label-downpayment": "Épargne (Apport)",
+        "label-loanneeded": "Prêt nécessaire",
+        "label-months": "Durée (mois)",
+        "label-tin": "Taux annuel (%)",
+        "label-purchasecosts": "Frais d'achat",
+        "label-income": "Revenu mensuel net",
+        "result-title": "Résultat financier",
+        "label-monthlypayment": "Mensualité",
+        "label-totalcost": "Coût total",
+        "label-model": "modèle français",
+        "label-interesttotal": "Intérêts totaux",
+        "amort-title": "Détail mensuel (Amortissement)",
+        "th-mes": "Mois",
+        "th-cuota": "Mensualité",
+        "th-interes": "Intérêt",
+        "th-capital": "Capital",
+        "th-saldo": "Solde",
+        "ratio-title": "Ratio d'endettement",
+        "ratio-note": "La mensualité ne doit pas dépasser 35% des revenus nets.",
+        "profile1-title": "MOINS DE 35 ANS<br>Financement jusqu'à 95%–100% (Garantie Institut de Crédit Officiel (ICO))",
+        "profile1-li1": "🧾 Identité et résidence",
+        "profile1-li2": "CNI / NIE en vigueur",
+        "profile1-li3": "Certificat de résidence (historique de 2 ans, requis pour la garantie ICO)",
+        "profile1-li4": "📑 Conditions spécifiques jeunes",
+        "profile1-li5": "Certificat de non-propriété (Note Simple Négative du Registre)",
+        "profile1-li6": "Déclaration de patrimoine (avoirs inférieurs à 100.000 €)",
+        "profile1-li7": "💼 Revenus et situation professionnelle",
+        "profile1-li8": "3 dernières fiches de paie",
+        "profile1-li9": "Contrat de travail (de préférence CDI)",
+        "profile1-li10": "Attestation de carrière à jour",
+        "profile1-li11": "Dernière déclaration d'impôt (IRPF)",
+        "profile1-li12": "🏠 Documents du bien immobilier",
+        "profile1-li13": "Note Simple à jour (moins de 3 mois)",
+        "profile1-contact": "Contactez votre banque",
+        "profile2-title": "CRÉDIT HYPOTHÉCAIRE GÉNÉRAL<br>Financement jusqu'à 80% (Résidence principale)",
+        "profile2-li1": "🧾 Identité et solvabilité",
+        "profile2-li2": "CNI / NIE en vigueur",
+        "profile2-li3": "3 derniers relevés bancaires complets (tous comptes)",
+        "profile2-li4": "Liste des prêts et crédits en cours (auto, conso, cartes, etc.)",
+        "profile2-li5": "💼 Revenus et patrimoine",
+        "profile2-li6": "3 dernières fiches de paie",
+        "profile2-li7": "Contrat de travail",
+        "profile2-li8": "Dernière déclaration d'impôt (IRPF)",
+        "profile2-li9": "Justificatif de fonds propres (20% du prix + environ 10% de frais)",
+        "profile2-li10": "👨‍💼 Si vous êtes indépendant",
+        "profile2-li11": "Déclarations trimestrielles et annuelles de TVA et IRPF",
+        "profile2-li12": "Attestation d'être à jour avec le fisc",
+        "profile2-li13": "Attestation d'être à jour avec la Sécurité Sociale",
+        "profile2-li14": "🏠 Documents du bien immobilier",
+        "profile2-li15": "Note Simple",
+        "profile2-li16": "Certificat de performance énergétique",
+        "profile2-contact": "Contactez votre banque"
+    }
+};
+
+function setLang(lang) {
+    window.currentLang = lang;
+    const t = translations[lang] || translations["es"];
+    for (const key in t) {
+        const el = document.getElementById(key);
+        if (el) {
+            if (key.endsWith("-title") || key.startsWith("profile")) {
+                el.innerHTML = t[key];
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    }
+    // Mettre à jour le texte du bouton langue
+    const langText = { es: "ES", ca: "CA", fr: "FR" };
+    const currentLangText = document.getElementById("current-lang-text");
+    if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    setLang("es");
+    updateMonthsYears();
+});
 
 
 // --- CONFIGURATION ---
@@ -14,6 +255,8 @@ const amountInput = document.getElementById("amount");
 const amountRange = document.getElementById("amountRange");
 const downPaymentInput = document.getElementById("downPaymentAmount");
 const downPaymentPercent = document.getElementById("downPaymentPercent");
+const purchaseCostsInput = document.getElementById("purchaseCosts");
+const purchaseCostsPercent = document.getElementById("purchaseCostsPercent");
 const monthsInput = document.getElementById("months");
 const tasaInput = document.getElementById("tin");
 const incomeInput = document.getElementById("monthlyIncome");
@@ -35,6 +278,8 @@ function update() {
     const months = parseInt(monthsInput.value) || 1;
     const rate = parseFloat(tasaInput.value) || 0;
     const income = parseFloat(incomeInput.value) || 0;
+    const purchaseCosts = parseFloat(purchaseCostsInput?.value) || 0;
+    const purchaseCostsPct = parseFloat(purchaseCostsPercent?.value) || 0;
 
 
     // Arrondi à l'entier le plus proche pour le prêt nécessaire
@@ -138,53 +383,69 @@ function reset() {
 }
 
 // --- INITIALISATION SÉCURISÉE & EVENTS ---
-document.addEventListener("DOMContentLoaded", function () {
 
-    // Sécurisation des events inputs
-    [
-        amountInput,
-        amountRange,
-        downPaymentInput,
-        downPaymentPercent,
-        monthsInput,
-        tasaInput,
-        incomeInput
-    ].forEach(el => {
-        if (!el) return;
+// Sécurisation des events inputs
 
-        el.addEventListener("input", function (e) {
-            const price = parseFloat(amountInput.value) || 0;
+[
+    amountInput,
+    amountRange,
+    downPaymentInput,
+    downPaymentPercent,
+    monthsInput,
+    tasaInput,
+    incomeInput,
+    purchaseCostsInput,
+    purchaseCostsPercent
+].forEach(el => {
+    if (!el) return;
 
-            if (e.target === amountInput) amountRange.value = e.target.value;
-            if (e.target === amountRange) amountInput.value = e.target.value;
+    el.addEventListener("input", function (e) {
+        const price = parseFloat(amountInput.value) || 0;
 
-            // Sync Apport Amount -> Percent
-            if (e.target === downPaymentInput && price > 0) {
-                downPaymentPercent.value = (
-                    (parseFloat(e.target.value) / price) * 100
-                ).toFixed(1);
-            }
+        if (e.target === amountInput) amountRange.value = e.target.value;
+        if (e.target === amountRange) amountInput.value = e.target.value;
 
-            // Sync Apport Percent -> Amount
-            if (e.target === downPaymentPercent && price > 0) {
-                downPaymentInput.value = Math.round(
-                    (parseFloat(e.target.value) / 100) * price
-                );
-            }
+        // Sync Apport Amount -> Percent
+        if (e.target === downPaymentInput && price > 0) {
+            downPaymentPercent.value = (
+                (parseFloat(e.target.value) / price) * 100
+            ).toFixed(1);
+        }
 
-            update();
-        });
+        // Sync Apport Percent -> Amount
+        if (e.target === downPaymentPercent && price > 0) {
+            downPaymentInput.value = Math.round(
+                (parseFloat(e.target.value) / 100) * price
+            );
+        }
+
+        // Sync Purchase Costs Amount -> Percent
+        if (e.target === purchaseCostsInput && price > 0) {
+            purchaseCostsPercent.value = (
+                (parseFloat(e.target.value) / price) * 100
+            ).toFixed(2);
+        }
+
+        // Sync Purchase Costs Percent -> Amount
+        if (e.target === purchaseCostsPercent && price > 0) {
+            purchaseCostsInput.value = Math.round(
+                (parseFloat(e.target.value) / 100) * price
+            );
+        }
+
+        update();
+        if (e.target === monthsInput) updateMonthsYears();
     });
-
-    // Sécurisation bouton reset
-    const resetBtn = document.getElementById("reset");
-    if (resetBtn) {
-        resetBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            reset();
-        });
-    }
-
-    // Reset automatique au chargement
-    reset();
 });
+
+// Sécurisation bouton reset
+const resetBtn = document.getElementById("reset");
+if (resetBtn) {
+    resetBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        reset();
+    });
+}
+
+// Reset automatique au chargement
+reset();

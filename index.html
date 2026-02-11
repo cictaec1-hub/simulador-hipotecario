@@ -19,12 +19,13 @@
             <div class="ms-auto">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span id="current-lang-text">ES</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" onclick="setLang('fr')">FR</a></li>
                             <li><a class="dropdown-item" href="#" onclick="setLang('es')">ES</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLang('ca')">CA</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLang('fr')">FR</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -35,19 +36,19 @@
     <main class="container-fluid page">
         <header class="hero-text-container">
             <div class="tagline-wrapper mb-2">
-                <span class="tagline" style="background:#eafbe7;color:#1a8c7b;font-weight:600;font-size:1.2rem;padding:8px 24px;border-radius:20px;">Simulador hipòtecario Fa Grup</span>
+                <span id="tagline" class="tagline" style="background:#eafbe7;color:#1a8c7b;font-weight:600;font-size:1.2rem;padding:8px 24px;border-radius:20px;"></span>
             </div>
-            <h1 class="main-title" style="font-family:'Playfair Display',serif;font-size:3.5rem;color:#bfa12a;font-weight:700;line-height:1.1;margin-bottom:0.5rem;">Calcula tu cuota mensual</h1>
-            <p class="main-description" style="font-size:1.18rem;color:#5b5b5b;margin-top:0.7rem;margin-bottom:0.7rem;">Estima rápidamente la viabilidad de tu compra introduciendo los datos básicos de la operación.</p>
+            <h1 id="main-title" class="main-title" style="font-family:'Playfair Display',serif;font-size:3.5rem;color:#bfa12a;font-weight:700;line-height:1.1;margin-bottom:0.5rem;"></h1>
+            <p id="main-description" class="main-description" style="font-size:1.18rem;color:#5b5b5b;margin-top:0.7rem;margin-bottom:0.7rem;"></p>
         </header>
 
         <section class="grid row">
             <div class="col-lg-8 col-xl-9">
                 <div class="card p-4 mb-4">
-                    <h2>Entradas principales</h2>
+                    <h2 id="inputs-title"></h2>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label>Precio de la vivienda (EUR)</label>
+                            <label id="label-amount"></label>
                             <div>
                                 <input id="amount" class="form-control" type="number" value="180000">
                                 <input id="amountRange" type="range" class="range--gold mt-2" min="50000" max="1000000" step="5000" value="180000">
@@ -56,7 +57,7 @@
                         <div class="col-md-6">
                             <div class="row g-3">
                                 <div class="col-sm-7">
-                                    <label>Ahorros (Entrada)</label>
+                                    <label id="label-downpayment"></label>
                                     <div class="input-group mb-2">
                                         <input id="downPaymentAmount" class="form-control" type="number" value="20000">
                                         <span class="input-group-text">EUR</span>
@@ -67,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-5 d-flex flex-column">
-                                    <label class="fw-bold">Préstamo necesario</label>
+                                    <label id="label-loanneeded" class="fw-bold"></label>
                                     <div id="loanNeededDisplay" class="form-control bg-light d-flex align-items-center justify-content-end flex-grow-1" 
                                          style="font-weight:600; font-size: 1.1rem; min-height: 85px; border: 1px solid #dee2e6;">
                                         EUR 0,00
@@ -75,10 +76,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4"><label>Plazo (meses)</label><input id="months" class="form-control" type="number" value="300"></div>
-                        <div class="col-md-4"><label>Tasa anual (%)</label><input id="tin" class="form-control" type="number" step="0.01" value="3.1"></div>
+                        <div class="col-md-4">
+                            <label id="label-months"></label>
+                            <span id="months-years" style="margin-left:8px; color:#888; font-size:1.05rem;"></span>
+                            <input id="months" class="form-control" type="number" value="300">
+                        </div>
+                        <div class="col-md-4"><label id="label-tin"></label><input id="tin" class="form-control" type="number" step="0.01" value="3.1"></div>
                             <div class="col-md-4">
-                                <label>Gastos de compra</label>
+                                <label id="label-purchasecosts"></label>
                                 <div class="input-group mb-2">
                                     <input id="purchaseCosts" class="form-control" type="number" value="0">
                                     <span class="input-group-text">EUR</span>
@@ -88,33 +93,33 @@
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
-                        <div class="col-md-4"><label>Ingreso mensual neto</label><input id="monthlyIncome" class="form-control" type="number" value="2600"></div>
+                        <div class="col-md-4"><label id="label-income"></label><input id="monthlyIncome" class="form-control" type="number" value="2600"></div>
                     </div>
                     
                     <div class="mt-4"><button id="reset" class="btn btn-outline-secondary">Restablecer</button></div>
                 </div>
 
                 <div class="card p-4">
-                    <h2 class="section-title">Resultado financiero</h2>
+                    <h2 id="result-title" class="section-title"></h2>
                     <div class="row g-3 mb-4">
                         <div class="col-md-6" style="padding-left:8px;">
                             <div class="summary-box" style="background: #f7fafb; border-radius: 12px; border: 1px solid #e0d9d0; padding: 18px 20px;">
-                                <span style="color: #5b5b5b; font-size: 1.1rem;">Cuota mensual</span>
+                                <span id="label-monthlypayment" style="color: #5b5b5b; font-size: 1.1rem;"></span>
                                 <p id="monthlyPayment" class="text-success" style="font-size: 2rem; font-weight: 600; margin-bottom: 0;">EUR 0,00</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="summary-box" style="background: #f7fafb; border-radius: 12px; border: 1px solid #e0d9d0; padding: 18px 20px;">
-                                <span style="color: #5b5b5b; font-size: 1.1rem;">Coste total</span>
+                                <span id="label-totalcost" style="color: #5b5b5b; font-size: 1.1rem;"></span>
                                 <p id="totalCost" style="font-size: 2rem; font-weight: 700; margin-bottom: 0; color: #222;">EUR 0,00</p>
-                                <span style="display:block; margin-top:8px; color:#888; font-size:1.08rem;">modelo frances</span>
+                                <span id="label-model" style="display:block; margin-top:8px; color:#888; font-size:1.08rem;"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mb-4">
                         <div class="col-md-12">
                             <div class="summary-box" style="background: #f7fafb; border-radius: 12px; border: 1px solid #e0d9d0; padding: 18px 20px;">
-                                <span style="color: #5b5b5b; font-size: 1.1rem;">Interés total</span>
+                                <span id="label-interesttotal" style="color: #5b5b5b; font-size: 1.1rem;"></span>
                                 <p id="interestTotal" class="fw-bold" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0; color: #222;">EUR 0,00</p>
                             </div>
                         </div>
@@ -124,10 +129,10 @@
 
                     </div>
                     <div class="mt-5">
-                        <h2 class="section-title">Desglose mensual (Amortización)</h2>
+                        <h2 id="amort-title" class="section-title"></h2>
                         <div class="custom-table-container">
                             <table class="amort-table">
-                                <thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Saldo</th></tr></thead>
+                                <thead><tr><th id="th-mes"></th><th id="th-cuota"></th><th id="th-interes"></th><th id="th-capital"></th><th id="th-saldo"></th></tr></thead>
                                 <tbody id="scheduleBody"></tbody>
                             </table>
                         </div>
@@ -137,12 +142,12 @@
 
             <div class="col-lg-5">
                 <div class="card p-4 sticky-lg-top" style="top: 80px; min-width:340px; max-width:500px; margin-left:auto; margin-right:auto;">
-                    <h2 class="section-title">Ratio de Endeudamiento</h2>
+                    <h2 id="ratio-title" class="section-title"></h2>
                     <div id="affordabilityStatus" class="ratio-box">
                         <span id="affordabilityLabel">Excelente</span>
                         <p id="affordabilityValue">--%</p>
                     </div>
-                    <p class="small text-muted mt-3 text-center">La cuota no debe superar el 35% de los ingresos netos.</p>
+                    <p id="ratio-note" class="small text-muted mt-3 text-center"></p>
                 </div>
             </div>
         </section>
@@ -150,50 +155,53 @@
         <section class="row g-4 mt-5 mb-5">
             <div class="col-md-6">
                 <div class="card profile-card p-4">
-                        <p class="fw-bold mb-3">Menos de 35 años<br>Financiación hasta 95%–100% (Aval Instituto credito oficial (ICO ))</p>
+                        <p id="profile1-title" class="fw-bold mb-3" style="text-transform:uppercase;"></p>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><strong>🧾 Identidad y residencia</strong></li>
-                            <li class="mb-2">DNI / NIE en vigor</li>
-                            <li class="mb-2">Certificado de empadronamiento (histórico de 2 años, requerido para aval ICO)</li>
-                            <li class="mb-2"><strong>📑 Requisitos específicos jóvenes</strong></li>
-                            <li class="mb-2">Certificado de no titularidad de vivienda (Nota Simple Negativa del Registro)</li>
-                            <li class="mb-2">Declaración de patrimonio (activos inferiores a 100.000 €)</li>
-                            <li class="mb-2"><strong>💼 Ingresos y situación laboral</strong></li>
-                            <li class="mb-2">3 últimas nóminas</li>
-                            <li class="mb-2">Contrato de trabajo (preferiblemente indefinido)</li>
-                            <li class="mb-2">Informe de Vida Laboral actualizado</li>
-                            <li class="mb-2">Última declaración de la renta (IRPF)</li>
-                            <li class="mb-2"><strong>🏠 Documentación del inmueble</strong></li>
-                            <li class="mb-2">Nota Simple actualizada (menos de 3 meses)</li>
+                            <li class="mb-2"><strong id="profile1-li1"></strong></li>
+                            <li class="mb-2" id="profile1-li2"></li>
+                            <li class="mb-2" id="profile1-li3"></li>
+                            <li class="mb-2"><strong id="profile1-li4"></strong></li>
+                            <li class="mb-2" id="profile1-li5"></li>
+                            <li class="mb-2" id="profile1-li6"></li>
+                            <li class="mb-2"><strong id="profile1-li7"></strong></li>
+                            <li class="mb-2" id="profile1-li8"></li>
+                            <li class="mb-2" id="profile1-li9"></li>
+                            <li class="mb-2" id="profile1-li10"></li>
+                            <li class="mb-2" id="profile1-li11"></li>
+                            <li class="mb-2"><strong id="profile1-li12"></strong></li>
+                            <li class="mb-2" id="profile1-li13"></li>
                         </ul>
+                        <div id="profile1-contact" style="margin-top:18px; font-size:1.18rem; font-weight:700; color:#0f7b6c; text-align:center; background:#eafbe7; border-radius:10px; padding:10px 0;"></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card profile-card p-4">
-                    <p class="fw-bold mb-3">Crédito hipotecario general<br>Financiación hasta 80% (Vivienda habitual)</p>
+                    <p id="profile2-title" class="fw-bold mb-3" style="text-transform:uppercase;"></p>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><strong>🧾 Identidad y solvencia</strong></li>
-                        <li class="mb-2">DNI / NIE en vigor</li>
-                        <li class="mb-2">3 últimos extractos bancarios completos (todas las cuentas)</li>
-                        <li class="mb-2">Relación de préstamos y créditos vigentes (auto, consumo, tarjetas, etc.)</li>
-                        <li class="mb-2"><strong>💼 Ingresos y patrimonio</strong></li>
-                        <li class="mb-2">3 últimas nóminas</li>
-                        <li class="mb-2">Contrato de trabajo</li>
-                        <li class="mb-2">Última declaración de la renta (IRPF)</li>
-                        <li class="mb-2">Justificante de fondos propios (20% del precio + aproximadamente 10% de gastos)</li>
-                        <li class="mb-2"><strong>👨‍💼 Si eres autónomo</strong></li>
-                        <li class="mb-2">Declaraciones trimestrales y anuales de IVA e IRPF</li>
-                        <li class="mb-2">Certificado de estar al corriente con Hacienda</li>
-                        <li class="mb-2">Certificado de estar al corriente con la Seguridad Social</li>
-                        <li class="mb-2"><strong>🏠 Documentación del inmueble</strong></li>
-                        <li class="mb-2">Nota Simple</li>
-                        <li class="mb-2">Certificado de eficiencia energética</li>
+                        <li class="mb-2"><strong id="profile2-li1"></strong></li>
+                        <li class="mb-2" id="profile2-li2"></li>
+                        <li class="mb-2" id="profile2-li3"></li>
+                        <li class="mb-2" id="profile2-li4"></li>
+                        <li class="mb-2"><strong id="profile2-li5"></strong></li>
+                        <li class="mb-2" id="profile2-li6"></li>
+                        <li class="mb-2" id="profile2-li7"></li>
+                        <li class="mb-2" id="profile2-li8"></li>
+                        <li class="mb-2" id="profile2-li9"></li>
+                        <li class="mb-2"><strong id="profile2-li10"></strong></li>
+                        <li class="mb-2" id="profile2-li11"></li>
+                        <li class="mb-2" id="profile2-li12"></li>
+                        <li class="mb-2" id="profile2-li13"></li>
+                        <li class="mb-2"><strong id="profile2-li14"></strong></li>
+                        <li class="mb-2" id="profile2-li15"></li>
+                        <li class="mb-2" id="profile2-li16"></li>
                     </ul>
+                    <div id="profile2-contact" style="margin-top:18px; font-size:1.18rem; font-weight:700; color:#0f7b6c; text-align:center; background:#eafbe7; border-radius:10px; padding:10px 0;"></div>
                 </div>
             </div>
         </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </main>
 <footer class="text-center mt-5 mb-3" style="font-size:1.05rem; color:#888;">
