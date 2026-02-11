@@ -314,7 +314,7 @@ function update() {
     if (!income || income <= 0) {
         valText.textContent = "";
         labelText.textContent = "";
-        statusBox.className = "ratio-box affordability-status-light";
+        statusBox.className = "ratio-box";
     } else {
         const ratio = (monthly / income) * 100;
         valText.textContent = ratio.toFixed(1) + "%";
