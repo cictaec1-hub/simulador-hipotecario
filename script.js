@@ -243,11 +243,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // --- CONFIGURATION ---
 const DEFAULTS = {
-    amount: 0,
-    downPayment: 0,
-    months: 1,   // mettre 1 pour éviter division par zéro
-    tasa: 0,
-    income: 0
+    amount: "",
+    downPayment: "",
+    months: 1,
+    tasa: "",
+    income: ""
 };
 
 // --- ELEMENTS ---
@@ -276,7 +276,11 @@ function update() {
     const price = parseFloat(amountInput.value) || 0;
     const down = parseFloat(downPaymentInput.value) || 0;
     const months = parseInt(monthsInput.value) || 1;
-    const rate = parseFloat(tasaInput.value) || 0;
+    let rate = parseFloat(tasaInput.value) || 0;
+    if (rate < 0) {
+        rate = 0;
+        if (tasaInput) tasaInput.value = 0;
+    }
     const income = parseFloat(incomeInput.value) || 0;
     const purchaseCosts = parseFloat(purchaseCostsInput?.value) || 0;
     const purchaseCostsPct = parseFloat(purchaseCostsPercent?.value) || 0;
