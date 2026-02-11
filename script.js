@@ -489,13 +489,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Initialiser jsPDF (compatibilité universelle)
-            let jsPDFref = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF : (window.jsPDF ? window.jsPDF : null);
-            if (!jsPDFref) {
-                alert("jsPDF non chargé");
-                return;
-            }
-            const doc = new jsPDFref();
+            // Initialiser jsPDF (version classique)
+            const doc = new jsPDF();
 
             // Titres dynamiques selon la langue
             const lang = window.currentLang || "es";
