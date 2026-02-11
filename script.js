@@ -11,7 +11,7 @@ function updateMonthsYears() {
     if (!monthsInput || !monthsYears) return;
     const lang = window.currentLang || "es";
     const months = parseInt(monthsInput.value) || 0;
-    const years = (months / 12).toFixed(1);
+    const years = Math.floor(months / 12);
     monthsYears.textContent = years + " " + yearText[lang];
 }
 
@@ -276,11 +276,7 @@ function update() {
     const price = parseFloat(amountInput.value) || 0;
     const down = parseFloat(downPaymentInput.value) || 0;
     const months = parseInt(monthsInput.value) || 1;
-    let rate = parseFloat(tasaInput.value) || 0;
-    if (rate < 0) {
-        rate = 0;
-        if (tasaInput) tasaInput.value = 0;
-    }
+    const rate = parseFloat(tasaInput.value) || 0;
     const income = parseFloat(incomeInput.value) || 0;
     const purchaseCosts = parseFloat(purchaseCostsInput?.value) || 0;
     const purchaseCostsPct = parseFloat(purchaseCostsPercent?.value) || 0;
@@ -311,19 +307,24 @@ function update() {
     if(document.getElementById("savingsTotal")) document.getElementById("savingsTotal").textContent = formatEur(down + 1500); // Ajout frais fixes estimé
 
     // --- RATIO 35% (Gestion des styles personnalisés) ---
-    const ratio = income > 0 ? (monthly / income) * 100 : 0;
     const statusBox = document.getElementById("affordabilityStatus");
     const valText = document.getElementById("affordabilityValue");
     const labelText = document.getElementById("affordabilityLabel");
-    
-    valText.textContent = ratio.toFixed(1) + "%";
 
-    if (ratio <= 35) {
-        statusBox.className = "ratio-box affordability-status-light"; // Ta classe CSS vert doux
-        labelText.textContent = "Excelente";
+    if (!income || income <= 0) {
+        valText.textContent = "";
+        labelText.textContent = "";
+        statusBox.className = "ratio-box affordability-status-light";
     } else {
-        statusBox.className = "ratio-box affordability-status-bad"; // Ta classe CSS rouge doux
-        labelText.textContent = "Riesgo Elevado";
+        const ratio = (monthly / income) * 100;
+        valText.textContent = ratio.toFixed(1) + "%";
+        if (ratio <= 35) {
+            statusBox.className = "ratio-box affordability-status-light";
+            labelText.textContent = "";
+        } else {
+            statusBox.className = "ratio-box affordability-status-bad";
+            labelText.textContent = "Riesgo Elevado";
+        }
     }
 
     renderTable(loanNeeded, rate, monthly, months);
@@ -377,7 +378,7 @@ function reset() {
     document.getElementById("interestTotal").textContent = "EUR 0,00";
     document.getElementById("savingsTotal").textContent = "EUR 0,00";
     document.getElementById("affordabilityValue").textContent = "--%";
-    document.getElementById("affordabilityLabel").textContent = "Excelente";
+    document.getElementById("affordabilityLabel").textContent = "";
 
     document.getElementById("affordabilityStatus").className =
         "ratio-box affordability-status-light";
