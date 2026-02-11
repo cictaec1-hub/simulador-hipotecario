@@ -4,16 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Descargo de Responsabilidad - FaGrup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg nav-bar">
+        <div class="container-fluid nav-bar__inner">
+            <a class="navbar-brand nav-brand" href="index.html">
+                <img class="nav-brand__logo" src="images/FA GRUP LOGO.svg" alt="FA Grup" />
+            </a>
+            <div class="ms-auto">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="current-lang-text">ES</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="setLang('es')">ES</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLang('ca')">CA</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="setLang('fr')">FR</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <main class="container" style="max-width:700px;margin:40px auto;">
-        <h1>Descargo de Responsabilidad</h1>
-        <p style="font-size:1.15rem;line-height:1.7;color:#444;">
-            Este CALCULO ha sido REALIZADO sin ánimo de exhaustividad y con efectos meramente informativos A MANERA GENERAL, sin que el mismo suponga ningún tipo de asesoramiento o recomendación por parte de FaGup.<br><br>
-            Para confirmar la información y su duda de manera correcta y adecuada, por favor acuda a fuentes de información oficiales o consulte con un profesional de su Banco o Empresa de Financiación.<br><br>
-            FaGrup declina cualquier responsabilidad por la emisión del presente formulario.
-        </p>
+        <div class="card shadow-sm p-4" style="background:#f7fafb;border-radius:16px;border:1px solid #e0d9d0;">
+            <div class="d-flex align-items-center mb-3">
+                <span class="me-2" style="font-size:2rem;color:#bfa12a;">&#9888;</span>
+                <h1 class="mb-0" style="font-size:2rem;font-weight:700;color:#bfa12a;">Descargo de Responsabilidad</h1>
+            </div>
+            <p style="font-size:1.15rem;line-height:1.7;color:#444;text-align:justify;">
+                Este cálculo ha sido realizado sin ánimo de exhaustividad y con efectos meramente informativos a manera general, sin que el mismo suponga ningún tipo de asesoramiento o recomendación por parte de FaGrup.<br><br>
+                Para confirmar la información y su duda de manera correcta y adecuada, por favor acuda a fuentes de información oficiales o consulte con un profesional de su banco o empresa de financiación.<br><br>
+                FaGrup declina cualquier responsabilidad por la emisión del presente formulario.
+            </p>
+            <div class="text-center mt-4">
+                <a href="index.html" class="btn btn-primary" style="background:#1a8c7b;border:none;font-size:1.1rem;padding:10px 28px;border-radius:8px;">Volver al simulador</a>
+            </div>
+        </div>
+        <footer class="text-center mt-5 mb-3" style="font-size:1.05rem; color:#888;">
+            <a href="descarga_responsabilidad.html" target="_blank" style="text-decoration:underline; color:#1a8c7b; margin-right:18px;">Descargo de responsabilidad</a>
+            <a href="#" style="text-decoration:underline; color:#1a8c7b; margin-right:18px;">Política de cookies</a>
+            <a href="#" style="text-decoration:underline; color:#1a8c7b; margin-right:18px;">Privacidad</a>
+            <a href="#" style="text-decoration:underline; color:#1a8c7b;">Sobre nosotros</a>
+        </footer>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
