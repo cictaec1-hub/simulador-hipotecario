@@ -33,9 +33,29 @@ function setLang(lang) {
     const langText = { es: "ES", ca: "CA", fr: "FR" };
     const currentLangText = document.getElementById("current-lang-text");
     if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
+    // Traduction du bouton PDF
+    const btnPdfLabel = document.getElementById("btn-pdf-label");
+    const btnPdfTexts = {
+        es: "Descargar el PDF del desglose",
+        ca: "Descarregar el PDF del desglossament",
+        fr: "Télécharger le PDF du tableau"
+    };
+    if (btnPdfLabel) btnPdfLabel.textContent = btnPdfTexts[lang] || btnPdfTexts["es"];
     updateMonthsYears();
 }
 // --- TRADUCTION ---
+// Traduction du bouton PDF (hors setLang pour l'initialisation)
+document.addEventListener("DOMContentLoaded", function () {
+    const btnPdfLabel = document.getElementById("btn-pdf-label");
+    const lang = document.documentElement.lang || "es";
+    const btnPdfTexts = {
+        es: "Descargar el PDF del desglose",
+        ca: "Descarregar el PDF del desglossament",
+        fr: "Télécharger le PDF du tableau"
+    };
+    if (btnPdfLabel) btnPdfLabel.textContent = btnPdfTexts[lang] || btnPdfTexts["es"];
+});
+
 const translations = {
     es: {
         tagline: "Simulador hipotecario Fa Grup",
@@ -454,3 +474,77 @@ if (resetBtn) {
 
 // Reset automatique au chargement
 reset();
+
+// --- PDF EXPORT ---
+document.addEventListener("DOMContentLoaded", function () {
+    const btnPdf = document.getElementById("btn-pdf");
+    if (btnPdf) {
+        btnPdf.addEventListener("click", function () {
+            // Récupérer les données du tableau
+            const table = document.querySelector("#scheduleBody");
+            if (!table) return;
+            const rows = Array.from(table.querySelectorAll("tr"));
+            if (rows.length === 0) {
+                alert("Aucune donnée à exporter.");
+                return;
+            }
+
+            // Initialiser jsPDF (compatibilité universelle)
+            let jsPDFref = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF : (window.jsPDF ? window.jsPDF : null);
+            if (!jsPDFref) {
+                alert("jsPDF non chargé");
+                return;
+            }
+            const doc = new jsPDFref();
+
+            // Titres dynamiques selon la langue
+            const lang = window.currentLang || "es";
+            const titleMap = {
+                es: "Desglose de amortización",
+                ca: "Desglossament d'amortització",
+                fr: "Tableau d'amortissement"
+            };
+            doc.setFontSize(16);
+            doc.text(titleMap[lang] || titleMap["es"], 14, 18);
+            doc.setFontSize(11);
+
+            // En-têtes
+            const headers = [
+                document.getElementById("th-mes")?.textContent || "Mes",
+                document.getElementById("th-cuota")?.textContent || "Cuota",
+                document.getElementById("th-interes")?.textContent || "Interés",
+                document.getElementById("th-capital")?.textContent || "Capital",
+                document.getElementById("th-saldo")?.textContent || "Saldo"
+            ];
+
+            let y = 28;
+            doc.setFont(undefined, 'bold');
+            headers.forEach((h, i) => {
+                doc.text(h, 14 + i * 38, y);
+            });
+            doc.setFont(undefined, 'normal');
+            y += 8;
+
+            // Lignes du tableau
+            rows.forEach(row => {
+                const cells = Array.from(row.querySelectorAll("td")).map(td => td.textContent.trim());
+                cells.forEach((cell, i) => {
+                    doc.text(cell, 14 + i * 38, y);
+                });
+                y += 8;
+                if (y > 270) {
+                    doc.addPage();
+                    y = 18;
+                }
+            });
+
+            // Nom du fichier selon la langue
+            const fileMap = {
+                es: "desglose-amortizacion.pdf",
+                ca: "desglossament-amortitzacio.pdf",
+                fr: "tableau-amortissement.pdf"
+            };
+            doc.save(fileMap[lang] || fileMap["es"]);
+        });
+    }
+});
