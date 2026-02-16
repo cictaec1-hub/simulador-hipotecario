@@ -55,6 +55,35 @@ FaGrup declina cualquier responsabilidad por la emisión del presente formulario
             <a id="footer-about" href="#" style="text-decoration:underline; color:#1a8c7b;">Sobre nosotros</a>
         </footer>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+        <script>
+            // Appliquer la traduction sur la page disclaimer
+            document.addEventListener("DOMContentLoaded", function () {
+                setLang(window.currentLang || "es");
+                // Mettre à jour les textes spécifiques disclaimer/footer
+                const t = translations[window.currentLang || "es"] || translations["es"];
+                if(document.getElementById("disclaimer-title")) document.getElementById("disclaimer-title").textContent = t["disclaimer-title"];
+                if(document.getElementById("disclaimer-text")) document.getElementById("disclaimer-text").textContent = t["disclaimer-text"];
+                if(document.getElementById("footer-disclaimer")) document.getElementById("footer-disclaimer").textContent = t["footer-disclaimer"];
+                if(document.getElementById("footer-cookies")) document.getElementById("footer-cookies").textContent = t["footer-cookies"];
+                if(document.getElementById("footer-privacy")) document.getElementById("footer-privacy").textContent = t["footer-privacy"];
+                if(document.getElementById("footer-about")) document.getElementById("footer-about").textContent = t["footer-about"];
+            });
+            // S'assurer que le bouton langue change bien
+            function setLang(lang) {
+                window.currentLang = lang;
+                const t = translations[lang] || translations["es"];
+                const langText = { es: "ES", ca: "CA", fr: "FR" };
+                const currentLangText = document.getElementById("current-lang-text");
+                if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
+                if(document.getElementById("disclaimer-title")) document.getElementById("disclaimer-title").textContent = t["disclaimer-title"];
+                if(document.getElementById("disclaimer-text")) document.getElementById("disclaimer-text").textContent = t["disclaimer-text"];
+                if(document.getElementById("footer-disclaimer")) document.getElementById("footer-disclaimer").textContent = t["footer-disclaimer"];
+                if(document.getElementById("footer-cookies")) document.getElementById("footer-cookies").textContent = t["footer-cookies"];
+                if(document.getElementById("footer-privacy")) document.getElementById("footer-privacy").textContent = t["footer-privacy"];
+                if(document.getElementById("footer-about")) document.getElementById("footer-about").textContent = t["footer-about"];
+            }
+        </script>
 </body>
 </html>

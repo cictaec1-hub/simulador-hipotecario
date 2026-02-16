@@ -94,7 +94,15 @@ const translations = {
         "profile2-li14": "🏠 Documentación del inmueble",
         "profile2-li15": "Nota Simple",
         "profile2-li16": "Certificado de eficiencia energética",
-        "profile2-contact": "Contacta a tu banco"
+        "profile2-contact": "Contacta a tu banco",
+        // Disclaimer page
+        "disclaimer-title": "Descargo de Responsabilidad",
+        "disclaimer-text": "Este cálculo ha sido realizado sin ánimo de exhaustividad y con efectos meramente informativos a manera general, sin que el mismo suponga ningún tipo de asesoramiento o recomendación por parte de FaGrup.\n\nPara confirmar la información y su duda de manera correcta y adecuada, por favor acuda a fuentes de información oficiales o consulte con un profesional de su banco o empresa de financiación.\n\nFaGrup declina cualquier responsabilidad por la emisión del presente formulario.",
+        // Footer links
+        "footer-disclaimer": "Descargo de responsabilidad",
+        "footer-cookies": "Política de cookies",
+        "footer-privacy": "Privacidad",
+        "footer-about": "Sobre nosotros"
     },
     ca: {
         tagline: "Simulador hipotecari Fa Grup",
@@ -153,7 +161,15 @@ const translations = {
         "profile2-li14": "🏠 Documentació de l'immoble",
         "profile2-li15": "Nota Simple",
         "profile2-li16": "Certificat d'eficiència energètica",
-        "profile2-contact": "Contacta amb el teu banc"
+        "profile2-contact": "Contacta amb el teu banc",
+        // Disclaimer page
+        "disclaimer-title": "Avís legal",
+        "disclaimer-text": "Aquest càlcul s'ha realitzat sense ànim d'exhaustivitat i amb efectes merament informatius de manera general, sense que això suposi cap tipus d'assessorament o recomanació per part de FaGrup.\n\nPer confirmar la informació i el seu dubte de manera correcta i adequada, si us plau acudeixi a fonts d'informació oficials o consulti amb un professional del seu banc o empresa de finançament.\n\nFaGrup declina qualsevol responsabilitat per l'emissió del present formulari.",
+        // Footer links
+        "footer-disclaimer": "Avís legal",
+        "footer-cookies": "Política de galetes",
+        "footer-privacy": "Privacitat",
+        "footer-about": "Sobre nosaltres"
     },
     fr: {
         tagline: "Simulateur hypothécaire Fa Grup",
@@ -212,7 +228,15 @@ const translations = {
         "profile2-li14": "🏠 Documents du bien immobilier",
         "profile2-li15": "Note Simple",
         "profile2-li16": "Certificat de performance énergétique",
-        "profile2-contact": "Contactez votre banque"
+        "profile2-contact": "Contactez votre banque",
+        // Disclaimer page
+        "disclaimer-title": "Avertissement",
+        "disclaimer-text": "Ce calcul a été réalisé sans exhaustivité et à titre purement informatif de manière générale, sans que cela ne constitue un quelconque conseil ou recommandation de la part de FaGrup.\n\nPour confirmer l'information et votre question de manière correcte et appropriée, veuillez consulter des sources officielles ou demander conseil à un professionnel de votre banque ou société de financement.\n\nFaGrup décline toute responsabilité quant à l'émission du présent formulaire.",
+        // Footer links
+        "footer-disclaimer": "Avertissement",
+        "footer-cookies": "Politique de cookies",
+        "footer-privacy": "Confidentialité",
+        "footer-about": "À propos de nous"
     }
 };
 
