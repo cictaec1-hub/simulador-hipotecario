@@ -334,17 +334,31 @@ const DEFAULTS = {
     income: ""
 };
 
-// --- ELEMENTS ---
-const amountInput = document.getElementById("amount");
-const amountRange = document.getElementById("amountRange");
-const downPaymentInput = document.getElementById("downPaymentAmount");
-const downPaymentPercent = document.getElementById("downPaymentPercent");
-const purchaseCostsInput = document.getElementById("purchaseCosts");
-const purchaseCostsPercent = document.getElementById("purchaseCostsPercent");
-const monthsInput = document.getElementById("months");
-const tasaInput = document.getElementById("tin");
-const incomeInput = document.getElementById("monthlyIncome");
-const scheduleBody = document.getElementById("scheduleBody");
+// --- ELEMENTS FACTORISÉS ---
+const els = [
+    "amount",
+    "amountRange",
+    "downPaymentAmount",
+    "downPaymentPercent",
+    "purchaseCosts",
+    "purchaseCostsPercent",
+    "months",
+    "tin",
+    "monthlyIncome",
+    "scheduleBody",
+    "loanNeededDisplay",
+    "monthlyPayment",
+    "totalCost",
+    "interestTotal",
+    "savingsTotal",
+    "affordabilityStatus",
+    "affordabilityValue",
+    "affordabilityLabel",
+    "reset"
+].reduce((acc, id) => {
+    acc[id] = document.getElementById(id);
+    return acc;
+}, {});
 
 // --- LOGIQUE DE CALCUL ---
 
@@ -357,112 +371,80 @@ const formatEur = (val, noDecimals = false) => {
 };
 
 function update() {
-    const price = parseFloat(amountInput.value) || 0;
-    const down = parseFloat(downPaymentInput.value) || 0;
-    const months = parseInt(monthsInput.value) || 1;
-    const rate = parseFloat(tasaInput.value) || 0;
-    const income = parseFloat(incomeInput.value) || 0;
-    const purchaseCosts = parseFloat(purchaseCostsInput?.value) || 0;
-    const purchaseCostsPct = parseFloat(purchaseCostsPercent?.value) || 0;
-
+    const price = parseFloat(els.amount.value) || 0;
+    const down = parseFloat(els.downPaymentAmount.value) || 0;
+    const months = parseInt(els.months.value) || 1;
+    const rate = parseFloat(els.tin.value) || 0;
+    const income = parseFloat(els.monthlyIncome.value) || 0;
+    const purchaseCosts = parseFloat(els.purchaseCosts?.value) || 0;
+    const purchaseCostsPct = parseFloat(els.purchaseCostsPercent?.value) || 0;
 
     // Arrondi à l'entier le plus proche pour le prêt nécessaire
     const loanNeeded = Math.max(0, Math.round(price - down));
-    const loanDisplay = document.getElementById("loanNeededDisplay");
-    if(loanDisplay) loanDisplay.textContent = formatEur(loanNeeded, true);
+    if(els.loanNeededDisplay) els.loanNeededDisplay.textContent = formatEur(loanNeeded, true);
 
     // Calcul de la mensualité (Formule française/espagnole standard)
     const i = (rate / 100) / 12;
-    let monthly = 0;
-    if (i === 0) {
-        monthly = loanNeeded / months;
-    } else {
-        monthly = (loanNeeded * i * Math.pow(1 + i, months)) / (Math.pow(1 + i, months) - 1);
-    }
+    const monthly = i === 0 ? loanNeeded / months : (loanNeeded * i * Math.pow(1 + i, months)) / (Math.pow(1 + i, months) - 1);
 
-    document.getElementById("monthlyPayment").textContent = formatEur(monthly);
-    
+    if(els.monthlyPayment) els.monthlyPayment.textContent = formatEur(monthly);
+
     // Calculs additionnels pour la vue "Resultado Financiero"
     const totalCostValue = monthly * months;
     const interestTotalValue = totalCostValue - loanNeeded;
-    
-    if(document.getElementById("totalCost")) document.getElementById("totalCost").textContent = formatEur(totalCostValue);
-    if(document.getElementById("interestTotal")) document.getElementById("interestTotal").textContent = formatEur(interestTotalValue);
-    if(document.getElementById("savingsTotal")) document.getElementById("savingsTotal").textContent = formatEur(down + 1500); // Ajout frais fixes estimé
+
+    if(els.totalCost) els.totalCost.textContent = formatEur(totalCostValue);
+    if(els.interestTotal) els.interestTotal.textContent = formatEur(interestTotalValue);
+    if(els.savingsTotal) els.savingsTotal.textContent = formatEur(down + 1500); // Ajout frais fixes estimé
 
     // --- RATIO 35% (Gestion des styles personnalisés) ---
     const ratio = income > 0 ? (monthly / income) * 100 : 0;
-    const statusBox = document.getElementById("affordabilityStatus");
-    const valText = document.getElementById("affordabilityValue");
-    const labelText = document.getElementById("affordabilityLabel");
-    
-    valText.textContent = ratio.toFixed(1) + "%";
-
-    if (ratio <= 35) {
-        statusBox.className = "ratio-box affordability-status-light"; // Ta classe CSS vert doux
-        labelText.textContent = "Excelente";
-    } else {
-        statusBox.className = "ratio-box affordability-status-bad"; // Ta classe CSS rouge doux
-        labelText.textContent = "Riesgo Elevado";
+    if(els.affordabilityValue) els.affordabilityValue.textContent = ratio.toFixed(1) + "%";
+    if(els.affordabilityStatus && els.affordabilityLabel) {
+        const isGood = ratio <= 35;
+        els.affordabilityStatus.className = isGood ? "ratio-box affordability-status-light" : "ratio-box affordability-status-bad";
+        els.affordabilityLabel.textContent = isGood ? "Excelente" : "Riesgo Elevado";
     }
 
     renderTable(loanNeeded, rate, monthly, months);
 }
 
 function renderTable(P, annualRate, M, n) {
-    if (!scheduleBody) return;
-    scheduleBody.innerHTML = "";
+    if (!els.scheduleBody) return;
+    els.scheduleBody.innerHTML = "";
     let balance = P;
     const i = (annualRate / 100) / 12;
-
-    for (let m = 1; m <= n; m++) {
+    for (let m = 1; m <= n && balance > 0.01 && m <= 420; m++) {
         const intM = balance * i;
         const prinM = M - intM;
         balance = Math.max(0, balance - prinM);
-
-        const row = `<tr>
+        els.scheduleBody.insertAdjacentHTML('beforeend', `<tr>
             <td>${m}</td>
             <td class="amount">${formatEur(M)}</td>
             <td>${formatEur(intM)}</td>
             <td>${formatEur(prinM)}</td>
             <td class="balance">${formatEur(balance)}</td>
-        </tr>`;
-        
-        scheduleBody.insertAdjacentHTML('beforeend', row);
-        
-        // Sécurité : on arrête si le solde est nul ou si on dépasse 35 ans
-        if (balance <= 0.01 || m >= 420) break;
+        </tr>`);
     }
 }
 
 // --- INITIALISATION & EVENTS ---
 function reset() {
     // Réinitialisation des inputs
-    amountInput.value = DEFAULTS.amount;
-    amountRange.value = DEFAULTS.amount;
-
-    downPaymentInput.value = DEFAULTS.downPayment;
-    downPaymentPercent.value = ((DEFAULTS.downPayment / DEFAULTS.amount) * 100).toFixed(1);
-
-    monthsInput.value = DEFAULTS.months;
-    tasaInput.value = DEFAULTS.tasa;
-    incomeInput.value = DEFAULTS.income;
-
-    // Vider tableau
-    if (scheduleBody) scheduleBody.innerHTML = "";
-
-    // Réinitialiser affichages résultats
-    document.getElementById("monthlyPayment").textContent = "EUR 0,00";
-    document.getElementById("totalCost").textContent = "EUR 0,00";
-    document.getElementById("interestTotal").textContent = "EUR 0,00";
-    document.getElementById("savingsTotal").textContent = "EUR 0,00";
-    document.getElementById("affordabilityValue").textContent = "--%";
-    document.getElementById("affordabilityLabel").textContent = "Excelente";
-
-    document.getElementById("affordabilityStatus").className =
-        "ratio-box affordability-status-light";
-
-    // Recalcul automatique
+    els.amount.value = DEFAULTS.amount;
+    els.amountRange.value = DEFAULTS.amount;
+    els.downPaymentAmount.value = DEFAULTS.downPayment;
+    els.downPaymentPercent.value = ((DEFAULTS.downPayment / DEFAULTS.amount) * 100).toFixed(1);
+    els.months.value = DEFAULTS.months;
+    els.tin.value = DEFAULTS.tasa;
+    els.monthlyIncome.value = DEFAULTS.income;
+    if (els.scheduleBody) els.scheduleBody.innerHTML = "";
+    ["monthlyPayment", "totalCost", "interestTotal", "savingsTotal"].forEach(id => {
+        if (els[id]) els[id].textContent = "EUR 0,00";
+    });
+    if (els.affordabilityValue) els.affordabilityValue.textContent = "--%";
+    if (els.affordabilityLabel) els.affordabilityLabel.textContent = "Excelente";
+    if (els.affordabilityStatus) els.affordabilityStatus.className = "ratio-box affordability-status-light";
     update();
 }
 
@@ -470,62 +452,49 @@ function reset() {
 
 // Sécurisation des events inputs
 
+
+// --- EVENTS FACTORISÉS ---
 [
-    amountInput,
-    amountRange,
-    downPaymentInput,
-    downPaymentPercent,
-    monthsInput,
-    tasaInput,
-    incomeInput,
-    purchaseCostsInput,
-    purchaseCostsPercent
-].forEach(el => {
+    "amount",
+    "amountRange",
+    "downPaymentAmount",
+    "downPaymentPercent",
+    "months",
+    "tin",
+    "monthlyIncome",
+    "purchaseCosts",
+    "purchaseCostsPercent"
+].forEach(id => {
+    const el = els[id];
     if (!el) return;
-
     el.addEventListener("input", function (e) {
-        const price = parseFloat(amountInput.value) || 0;
-
-        if (e.target === amountInput) amountRange.value = e.target.value;
-        if (e.target === amountRange) amountInput.value = e.target.value;
-
-        // Sync Apport Amount -> Percent
-        if (e.target === downPaymentInput && price > 0) {
-            downPaymentPercent.value = (
-                (parseFloat(e.target.value) / price) * 100
-            ).toFixed(1);
+        const price = parseFloat(els.amount.value) || 0;
+        if (e.target === els.amount) els.amountRange.value = e.target.value;
+        if (e.target === els.amountRange) els.amount.value = e.target.value;
+        // Sync Apport Amount <-> Percent
+        if ([els.downPaymentAmount, els.downPaymentPercent].includes(e.target) && price > 0) {
+            if (e.target === els.downPaymentAmount) {
+                els.downPaymentPercent.value = ((parseFloat(e.target.value) / price) * 100).toFixed(1);
+            } else {
+                els.downPaymentAmount.value = Math.round((parseFloat(e.target.value) / 100) * price);
+            }
         }
-
-        // Sync Apport Percent -> Amount
-        if (e.target === downPaymentPercent && price > 0) {
-            downPaymentInput.value = Math.round(
-                (parseFloat(e.target.value) / 100) * price
-            );
+        // Sync Purchase Costs <-> Percent
+        if ([els.purchaseCosts, els.purchaseCostsPercent].includes(e.target) && price > 0) {
+            if (e.target === els.purchaseCosts) {
+                els.purchaseCostsPercent.value = ((parseFloat(e.target.value) / price) * 100).toFixed(2);
+            } else {
+                els.purchaseCosts.value = Math.round((parseFloat(e.target.value) / 100) * price);
+            }
         }
-
-        // Sync Purchase Costs Amount -> Percent
-        if (e.target === purchaseCostsInput && price > 0) {
-            purchaseCostsPercent.value = (
-                (parseFloat(e.target.value) / price) * 100
-            ).toFixed(2);
-        }
-
-        // Sync Purchase Costs Percent -> Amount
-        if (e.target === purchaseCostsPercent && price > 0) {
-            purchaseCostsInput.value = Math.round(
-                (parseFloat(e.target.value) / 100) * price
-            );
-        }
-
         update();
-        if (e.target === monthsInput) updateMonthsYears();
+        if (e.target === els.months) updateMonthsYears();
     });
 });
 
 // Sécurisation bouton reset
-const resetBtn = document.getElementById("reset");
-if (resetBtn) {
-    resetBtn.addEventListener("click", function (e) {
+if (els.reset) {
+    els.reset.addEventListener("click", function (e) {
         e.preventDefault();
         reset();
     });
@@ -533,8 +502,3 @@ if (resetBtn) {
 
 // Reset automatique au chargement
 reset();
-
-
-
-
-
