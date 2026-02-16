@@ -1,2 +1,0 @@
-// @license jsPDF - https://github.com/parallax/jsPDF
-// CDN version for browser usage

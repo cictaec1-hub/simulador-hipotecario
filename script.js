@@ -11,15 +11,14 @@ function updateMonthsYears() {
     if (!monthsInput || !monthsYears) return;
     const lang = window.currentLang || "es";
     const months = parseInt(monthsInput.value) || 0;
-    const years = Math.floor(months / 12);
+    const years = (months / 12).toFixed(1);
     monthsYears.textContent = years + " " + yearText[lang];
 }
 
-// --- Fonction setLang unique ---
+// Mettre à jour aussi lors du changement de langue
 function setLang(lang) {
     window.currentLang = lang;
     const t = translations[lang] || translations["es"];
-
     for (const key in t) {
         const el = document.getElementById(key);
         if (el) {
@@ -30,27 +29,13 @@ function setLang(lang) {
             }
         }
     }
-
-    // Texte bouton langue
+    // Mettre à jour le texte du bouton langue
     const langText = { es: "ES", ca: "CA", fr: "FR" };
     const currentLangText = document.getElementById("current-lang-text");
     if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
-
-    // Traduction bouton PDF
-    const btnPdfLabel = document.getElementById("btn-pdf-label");
-    const btnPdfTexts = {
-        es: "Descargar el PDF del desglose",
-        ca: "Descarregar el PDF del desglossament",
-        fr: "Télécharger le PDF du tableau"
-    };
-    if (btnPdfLabel) btnPdfLabel.textContent = btnPdfTexts[lang] || btnPdfTexts["es"];
-
     updateMonthsYears();
 }
 // --- TRADUCTION ---
-// Traduction du bouton PDF (hors setLang pour l'initialisation)
-
-
 const translations = {
     es: {
         tagline: "Simulador hipotecario Fa Grup",
@@ -322,24 +307,19 @@ function update() {
     if(document.getElementById("savingsTotal")) document.getElementById("savingsTotal").textContent = formatEur(down + 1500); // Ajout frais fixes estimé
 
     // --- RATIO 35% (Gestion des styles personnalisés) ---
+    const ratio = income > 0 ? (monthly / income) * 100 : 0;
     const statusBox = document.getElementById("affordabilityStatus");
     const valText = document.getElementById("affordabilityValue");
     const labelText = document.getElementById("affordabilityLabel");
+    
+    valText.textContent = ratio.toFixed(1) + "%";
 
-    if (!income || income <= 0) {
-        valText.textContent = "";
-        labelText.textContent = "";
-        statusBox.className = "ratio-box";
+    if (ratio <= 35) {
+        statusBox.className = "ratio-box affordability-status-light"; // Ta classe CSS vert doux
+        labelText.textContent = "Excelente";
     } else {
-        const ratio = (monthly / income) * 100;
-        valText.textContent = ratio.toFixed(1) + "%";
-        if (ratio <= 35) {
-            statusBox.className = "ratio-box affordability-status-light";
-            labelText.textContent = "";
-        } else {
-            statusBox.className = "ratio-box affordability-status-bad";
-            labelText.textContent = "Riesgo Elevado";
-        }
+        statusBox.className = "ratio-box affordability-status-bad"; // Ta classe CSS rouge doux
+        labelText.textContent = "Riesgo Elevado";
     }
 
     renderTable(loanNeeded, rate, monthly, months);
@@ -373,14 +353,12 @@ function renderTable(P, annualRate, M, n) {
 
 // --- INITIALISATION & EVENTS ---
 function reset() {
+    // Réinitialisation des inputs
     amountInput.value = DEFAULTS.amount;
     amountRange.value = DEFAULTS.amount;
 
     downPaymentInput.value = DEFAULTS.downPayment;
-    downPaymentPercent.value = "";
-
-    purchaseCostsInput.value = "";
-    purchaseCostsPercent.value = "";
+    downPaymentPercent.value = ((DEFAULTS.downPayment / DEFAULTS.amount) * 100).toFixed(1);
 
     monthsInput.value = DEFAULTS.months;
     tasaInput.value = DEFAULTS.tasa;
@@ -389,20 +367,18 @@ function reset() {
     // Vider tableau
     if (scheduleBody) scheduleBody.innerHTML = "";
 
-    // Résultats à zéro
+    // Réinitialiser affichages résultats
     document.getElementById("monthlyPayment").textContent = "EUR 0,00";
     document.getElementById("totalCost").textContent = "EUR 0,00";
     document.getElementById("interestTotal").textContent = "EUR 0,00";
-
-    const savingsEl = document.getElementById("savingsTotal");
-    if (savingsEl) savingsEl.textContent = "EUR 0,00";
-
+    document.getElementById("savingsTotal").textContent = "EUR 0,00";
     document.getElementById("affordabilityValue").textContent = "--%";
-    document.getElementById("affordabilityLabel").textContent = "";
+    document.getElementById("affordabilityLabel").textContent = "Excelente";
 
-    const status = document.getElementById("affordabilityStatus");
-    if (status) status.className = "ratio-box affordability-status-light";
+    document.getElementById("affordabilityStatus").className =
+        "ratio-box affordability-status-light";
 
+    // Recalcul automatique
     update();
 }
 
@@ -474,76 +450,7 @@ if (resetBtn) {
 // Reset automatique au chargement
 reset();
 
-// --- PDF EXPORT ---
-document.addEventListener("DOMContentLoaded", function () {
-    const btnPdf = document.getElementById("btn-pdf");
-    if (btnPdf) {
-        btnPdf.addEventListener("click", function () {
-            // Récupérer les données du tableau
-            const table = document.querySelector("#scheduleBody");
-            if (!table) return;
-            const rows = Array.from(table.querySelectorAll("tr"));
-            if (rows.length === 0) {
-                alert("Aucune donnée à exporter.");
-                return;
-            }
 
-            // Initialiser jsPDF (UMD sécurisé)
-            if (!window.jspdf) {
-                alert("Erreur: bibliothèque PDF non chargée.");
-                return;
-            }
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
 
-            // Titres dynamiques selon la langue
-            const lang = window.currentLang || "es";
-            const titleMap = {
-                es: "Desglose de amortización",
-                ca: "Desglossament d'amortització",
-                fr: "Tableau d'amortissement"
-            };
-            doc.setFontSize(16);
-            doc.text(titleMap[lang] || titleMap["es"], 14, 18);
-            doc.setFontSize(11);
 
-            // En-têtes
-            const headers = [
-                document.getElementById("th-mes")?.textContent || "Mes",
-                document.getElementById("th-cuota")?.textContent || "Cuota",
-                document.getElementById("th-interes")?.textContent || "Interés",
-                document.getElementById("th-capital")?.textContent || "Capital",
-                document.getElementById("th-saldo")?.textContent || "Saldo"
-            ];
 
-            let y = 28;
-            doc.setFont(undefined, 'bold');
-            headers.forEach((h, i) => {
-                doc.text(h, 14 + i * 38, y);
-            });
-            doc.setFont(undefined, 'normal');
-            y += 8;
-
-            // Lignes du tableau
-            rows.forEach(row => {
-                const cells = Array.from(row.querySelectorAll("td")).map(td => td.textContent.trim());
-                cells.forEach((cell, i) => {
-                    doc.text(cell, 14 + i * 38, y);
-                });
-                y += 8;
-                if (y > 270) {
-                    doc.addPage();
-                    y = 18;
-                }
-            });
-
-            // Nom du fichier selon la langue
-            const fileMap = {
-                es: "desglose-amortizacion.pdf",
-                ca: "desglossament-amortitzacio.pdf",
-                fr: "tableau-amortissement.pdf"
-            };
-            doc.save(fileMap[lang] || fileMap["es"]);
-        });
-    }
-});
