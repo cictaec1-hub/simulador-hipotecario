@@ -1,3 +1,79 @@
+/* --- ESTILOS TRASLADADOS DE descarga_responsabilidad.html --- */
+.disclaimer-card {
+  background: #f7fafb;
+  border-radius: 16px;
+  border: 1px solid #e0d9d0;
+}
+.disclaimer-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #bfa12a;
+}
+.disclaimer-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #444;
+  text-align: justify;
+}
+.disclaimer-btn {
+  background: #1a8c7b;
+  border: none;
+  font-size: 1.1rem;
+  padding: 10px 28px;
+  border-radius: 8px;
+}
+.disclaimer-footer {
+  font-size: 1.05rem;
+  color: #888;
+}
+/* --- ESTILOS TRASLADADOS DE nosotros.html --- */
+.about-hero__container {
+  background: #f3ede2;
+  padding: 36px 0 24px 0;
+  border-radius: 18px;
+}
+.about-hero__title {
+  color: #bfa12a;
+  font-weight: 700;
+  font-size: 3.2rem;
+}
+.about-hero__subtitle {
+  color: #444;
+  font-size: 1.25rem;
+}
+.about-section__container {
+  background: #ece6db;
+  border-radius: 16px;
+  padding: 32px 0;
+}
+.about-section__title {
+  color: #bfa12a;
+  font-weight: 700;
+}
+.values-grid {
+  justify-content: center;
+}
+.differentiators {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+}
+.footer-custom {
+  font-size: 1.05rem;
+  color: #888;
+}
+.footer-custom__btn {
+  background: #1a8c7b;
+  border: none;
+  font-size: 1.1rem;
+  padding: 10px 28px;
+  border-radius: 8px;
+}
+.footer-custom__link {
+  text-decoration: underline;
+  color: #1a8c7b;
+  margin-right: 18px;
+}
 /* --- Variables --- */
 :root {
   --bg: #f4f1ec;
@@ -11,7 +87,7 @@
   --shadow: 0 20px 60px rgba(19, 19, 19, 0.12);
 }
 
-/* --- Reset & Box Sizing --- */
+/* --- Reinicio y Box Sizing --- */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -33,12 +109,12 @@ body::before {
   z-index: 0;
 }
 
-/* --- Layout --- */
+/* --- Diseño --- */
 .page { max-width: 1600px; margin: 0 auto; padding: 28px 24px 80px; position: relative; z-index: 1; }
 .grid { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,0.6fr); gap: 28px; }
 @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
 
-/* --- Nav --- */
+/* --- Navegación --- */
 .nav-bar {
   position: sticky; top: 0; z-index: 10;
   backdrop-filter: blur(8px);
@@ -61,7 +137,7 @@ body::before {
 .hero-list li { margin-bottom:6px; }
 .tagline { display:inline-flex; gap:12px; padding:10px 16px; border-radius:999px; background:rgba(15,123,108,0.12); color:var(--accent); font-weight:600; font-size:0.98rem; letter-spacing:0.02em; }
 
-/* --- Cards & Inputs --- */
+/* --- Tarjetas e Inputs --- */
 .card, .loan-docs-container {
   background: var(--card);
   border-radius: 12px;
@@ -77,7 +153,7 @@ input[type="range"] { width:100%; appearance:none; background:transparent; margi
 .range--gold::-webkit-slider-runnable-track { height:6px; border-radius:999px; background:linear-gradient(90deg,#c79a1c,#f2d27a); }
 .range--gold::-webkit-slider-thumb, .range--gold::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:#c79a1c; border:2px solid #fff; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
 
-/* --- Tabs & Documents --- */
+/* --- Pestañas y Documentos --- */
 .tabs { display:flex; gap:12px; margin-bottom:18px; justify-content:center; }
 .tab-btn { background:#f2f2f2; border:none; border-radius:6px 6px 0 0; padding:10px 22px; font-size:1.08rem; cursor:pointer; color:#333; transition:0.2s; }
 .tab-btn.active { background:#2e7d32; color:#fff; font-weight:bold; }
@@ -86,7 +162,7 @@ input[type="range"] { width:100%; appearance:none; background:transparent; margi
 .doc-list ul ul li { font-size:1.11rem; }
 .doc-list ul { margin:0 0 0 18px; padding:0; }
 
-/* --- Amort Table --- */
+/* --- Tabla de Amortización --- */
 .custom-table-container, .table-wrap { max-height:600px; overflow-y:auto; border-radius:16px; border:1px solid var(--line); }
 .amort-table, .schedule { width:100%; border-collapse:separate; border-spacing:0 8px; font-family:'Space Grotesk',Arial,sans-serif; }
 .amort-table th, .amort-table td { background:#f7fafb; padding:12px 10px; border:none; font-weight:500; font-size:1.08rem; color:#222; vertical-align:middle; }
@@ -96,18 +172,18 @@ input[type="range"] { width:100%; appearance:none; background:transparent; margi
 .amort-table td.amount, .amort-table td.balance { font-size:1.13rem; font-weight:600; color:#1a2a2a; }
 .amort-table tr:not(:last-child) td { border-bottom:2px solid #f2f2f2; }
 
-/* --- Affordability Status --- */
+/* --- Estado de Asequibilidad --- */
 .affordability-status-light { background:#eafbe7!important; color:#2e7d32!important; border:1px solid #b6e2c6; }
 .affordability-status-bad { background:#fff6f6!important; color:#c62828!important; border:1px solid #f7dede; }
 
-/* --- Results / Stats --- */
+/* --- Resultados / Estadísticas --- */
 .results, .aside, .stat { display:grid; gap:16px; }
 .stat span, .status span, .tooltip-text, .slider-row span { color:var(--gold); }
 .status { padding:14px 16px; border-radius:14px; border:1px solid var(--line); background:rgba(15,123,108,0.08); }
 .status.ok { border-color:rgba(15,123,108,0.35); background:rgba(15,123,108,0.12); }
 .status.bad { border-color:rgba(185,46,55,0.35); background:rgba(185,46,55,0.12); }
 
-/* --- Buttons / CTA --- */
+/* --- Botones / CTA --- */
 button, .slider-btn { border:none; border-radius:999px; padding:12px 20px; font-family:inherit; font-weight:600; cursor:pointer; }
 button { background:var(--accent); color:#fff; }
 .ghost { background:transparent; color:var(--accent); border:1px solid rgba(15,123,108,0.4); }
@@ -127,10 +203,10 @@ button { background:var(--accent); color:#fff; }
 }
 .tooltip:hover::after, .tooltip:focus-within::after { opacity:1; transform:translateY(0); }
 
-/* --- Animations --- */
+/* --- Animaciones --- */
 @keyframes fadeUp { from {opacity:0; transform:translateY(12px);} to {opacity:1; transform:translateY(0);} }
 
-/* --- Responsive Table Slider --- */
+/* --- Tabla Deslizante Responsive --- */
 .schedule-slider { display:none; margin-top:16px; }
 @media (max-width:680px) {
   .table-wrap { display:none; }
