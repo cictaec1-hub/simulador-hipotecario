@@ -99,10 +99,30 @@ const translations = {
         "disclaimer-title": "Descargo de Responsabilidad",
         "disclaimer-text": "Este cálculo ha sido realizado sin ánimo de exhaustividad y con efectos meramente informativos a manera general, sin que el mismo suponga ningún tipo de asesoramiento o recomendación por parte de FaGrup.\n\nPara confirmar la información y su duda de manera correcta y adecuada, por favor acuda a fuentes de información oficiales o consulte con un profesional de su banco o empresa de financiación.\n\nFaGrup declina cualquier responsabilidad por la emisión del presente formulario.",
         // Footer links
+        // PRIVACIDAD PAGE
+        privacy_title: "Política de Privacidad",
+        privacy_subtitle: "FA GRUP - Protección de Datos Personales",
+        privacy_last_update: "Última actualización: 4 de febrero de 2026",
+        privacy_section1_title: "1. Responsable del Tratamiento",
+        privacy_responsable: "FA GRUP, con domicilio en Avenida Josep Tarradellas 134 bajos, 08029 Barcelona, España, es el responsable del tratamiento de los datos personales que nos proporcione.",
+        privacy_contact_label: "Contacto:",
+        privacy_contact_info: "Email: fagrupinmobiliaria@gmail.com<br>Teléfono: +34 635 871 358",
+        privacy_section2_title: "2. Datos que Recopilamos",
+        privacy_section3_title: "3. Finalidad del Tratamiento",
+        privacy_section4_title: "4. Base Jurídica del Tratamiento",
+        privacy_section5_title: "5. Destinatarios de los Datos",
+        privacy_section6_title: "6. Conservación de los Datos",
+        privacy_section7_title: "7. Derechos del Usuario",
+        privacy_section8_title: "8. Seguridad de los Datos",
+        privacy_section9_title: "9. Cookies",
+        privacy_section10_title: "10. Modificaciones",
+        privacy_section11_title: "11. Reclamaciones",
+        privacy_section12_title: "12. Contacto",
         "footer-disclaimer": "Descargo de responsabilidad",
         "footer-cookies": "Política de cookies",
         "footer-privacy": "Privacidad",
-        "footer-about": "Sobre nosotros"
+        "footer-about": "Sobre nosotros",
+        "footer-back": "Volver al simulador"
     },
     ca: {
         tagline: "Simulador hipotecari Fa Grup",
@@ -166,10 +186,30 @@ const translations = {
         "disclaimer-title": "Avís legal",
         "disclaimer-text": "Aquest càlcul s'ha realitzat sense ànim d'exhaustivitat i amb efectes merament informatius de manera general, sense que això suposi cap tipus d'assessorament o recomanació per part de FaGrup.\n\nPer confirmar la informació i el seu dubte de manera correcta i adequada, si us plau acudeixi a fonts d'informació oficials o consulti amb un professional del seu banc o empresa de finançament.\n\nFaGrup declina qualsevol responsabilitat per l'emissió del present formulari.",
         // Footer links
+        // PRIVACIDAD PAGE
+        privacy_title: "Política de Privacitat",
+        privacy_subtitle: "FA GRUP - Protecció de Dades Personals",
+        privacy_last_update: "Darrera actualització: 4 de febrer de 2026",
+        privacy_section1_title: "1. Responsable del Tractament",
+        privacy_responsable: "FA GRUP, amb domicili a l'Avinguda Josep Tarradellas 134 baixos, 08029 Barcelona, Espanya, és el responsable del tractament de les dades personals que ens proporcioni.",
+        privacy_contact_label: "Contacte:",
+        privacy_contact_info: "Email: fagrupinmobiliaria@gmail.com<br>Telèfon: +34 635 871 358",
+        privacy_section2_title: "2. Dades que Recollim",
+        privacy_section3_title: "3. Finalitat del Tractament",
+        privacy_section4_title: "4. Base Jurídica del Tractament",
+        privacy_section5_title: "5. Destinataris de les Dades",
+        privacy_section6_title: "6. Conservació de les Dades",
+        privacy_section7_title: "7. Drets de l'Usuari",
+        privacy_section8_title: "8. Seguretat de les Dades",
+        privacy_section9_title: "9. Galetes",
+        privacy_section10_title: "10. Modificacions",
+        privacy_section11_title: "11. Reclamacions",
+        privacy_section12_title: "12. Contacte",
         "footer-disclaimer": "Avís legal",
         "footer-cookies": "Política de galetes",
         "footer-privacy": "Privacitat",
-        "footer-about": "Sobre nosaltres"
+        "footer-about": "Sobre nosaltres",
+        "footer-back": "Tornar al simulador"
     },
     fr: {
         tagline: "Simulateur hypothécaire Fa Grup",
@@ -233,10 +273,30 @@ const translations = {
         "disclaimer-title": "Avertissement",
         "disclaimer-text": "Ce calcul a été réalisé sans exhaustivité et à titre purement informatif de manière générale, sans que cela ne constitue un quelconque conseil ou recommandation de la part de FaGrup.\n\nPour confirmer l'information et votre question de manière correcte et appropriée, veuillez consulter des sources officielles ou demander conseil à un professionnel de votre banque ou société de financement.\n\nFaGrup décline toute responsabilité quant à l'émission du présent formulaire.",
         // Footer links
+        // PRIVACIDAD PAGE
+        privacy_title: "Politique de Confidentialité",
+        privacy_subtitle: "FA GRUP - Protection des Données Personnelles",
+        privacy_last_update: "Dernière mise à jour : 4 février 2026",
+        privacy_section1_title: "1. Responsable du Traitement",
+        privacy_responsable: "FA GRUP, domicilié Avenida Josep Tarradellas 134 bajos, 08029 Barcelone, Espagne, est responsable du traitement des données personnelles que vous nous fournissez.",
+        privacy_contact_label: "Contact :",
+        privacy_contact_info: "Email : fagrupinmobiliaria@gmail.com<br>Téléphone : +34 635 871 358",
+        privacy_section2_title: "2. Données que nous collectons",
+        privacy_section3_title: "3. Finalité du Traitement",
+        privacy_section4_title: "4. Base Juridique du Traitement",
+        privacy_section5_title: "5. Destinataires des Données",
+        privacy_section6_title: "6. Conservation des Données",
+        privacy_section7_title: "7. Droits de l'Utilisateur",
+        privacy_section8_title: "8. Sécurité des Données",
+        privacy_section9_title: "9. Cookies",
+        privacy_section10_title: "10. Modifications",
+        privacy_section11_title: "11. Réclamations",
+        privacy_section12_title: "12. Contact",
         "footer-disclaimer": "Avertissement",
         "footer-cookies": "Politique de cookies",
         "footer-privacy": "Confidentialité",
-        "footer-about": "À propos de nous"
+        "footer-about": "À propos de nous",
+        "footer-back": "Retour au simulateur"
     }
 };
 
