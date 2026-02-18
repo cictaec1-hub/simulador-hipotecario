@@ -19,25 +19,62 @@ function updateMonthsYears() {
 function setLang(lang) {
     window.currentLang = lang;
     const t = translations[lang] || translations["es"];
-    for (const key in t) {
-        const el = document.getElementById(key);
-        if (el) {
-            if (key.endsWith("-title") || key.startsWith("profile")) {
-                el.innerHTML = t[key];
-            } else {
-                el.textContent = t[key];
-            }
+    // Parcourt tous les éléments avec data-translate
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (t[key]) {
+            el.innerHTML = t[key];
         }
-    }
-    // Mettre à jour le texte du bouton langue
+    });
+    // Mise à jour du sélecteur de langue
     const langText = { es: "ES", ca: "CA", fr: "FR" };
-    const currentLangText = document.getElementById("current-lang-text");
-    if (currentLangText) currentLangText.textContent = langText[lang] || "ES";
+    const currentLangBtn = document.getElementById("current-lang-text");
+    if (currentLangBtn) currentLangBtn.textContent = langText[lang] || "ES";
     updateMonthsYears();
 }
 // --- TRADUCTION ---
 const translations = {
     es: {
+        privacy_collect_intro: "FA GRUP puede recopilar los siguientes tipos de datos personales:",
+        privacy_collect_id: "<strong>Datos de identificación:</strong> Nombre, apellidos, DNI/NIE",
+        privacy_collect_contact: "<strong>Datos de contacto:</strong> Dirección de correo electrónico, número de teléfono, dirección postal",
+        privacy_collect_nav: "<strong>Datos de navegación:</strong> Dirección IP, tipo de navegador, páginas visitadas",
+        privacy_collect_service: "<strong>Datos relacionados con servicios:</strong> Información sobre propiedades de interés, preferencias de búsqueda",
+        privacy_purpose_intro: "Los datos personales recopilados serán tratados para las siguientes finalidades:",
+        privacy_purpose1: "Gestión de consultas y solicitudes de información",
+        privacy_purpose2: "Prestación de servicios inmobiliarios, seguros y viajes",
+        privacy_purpose3: "Envío de comunicaciones comerciales sobre nuestros servicios (con su consentimiento previo)",
+        privacy_purpose4: "Cumplimiento de obligaciones legales y contractuales",
+        privacy_purpose5: "Mejora de nuestros servicios y experiencia del usuario",
+        privacy_legal_intro: "El tratamiento de sus datos personales se basa en:",
+        privacy_legal1: "<strong>Consentimiento:</strong> Para el envío de comunicaciones comerciales",
+        privacy_legal2: "<strong>Ejecución de contrato:</strong> Para la prestación de servicios solicitados",
+        privacy_legal3: "<strong>Interés legítimo:</strong> Para la gestión y mejora de nuestros servicios",
+        privacy_legal4: "<strong>Obligación legal:</strong> Para cumplir con normativas aplicables",
+        privacy_recipients_intro: "Sus datos personales podrán ser comunicados a:",
+        privacy_recipients1: "Empresas asociadas del grupo FA GRUP para la prestación de servicios",
+        privacy_recipients2: "Proveedores de servicios tecnológicos y de almacenamiento",
+        privacy_recipients3: "Administraciones públicas cuando sea legalmente requerido",
+        privacy_recipients4: "Entidades financieras para la gestión de pagos",
+        privacy_recipients5: "No realizamos transferencias internacionales de datos fuera del Espacio Económico Europeo.",
+        privacy_storage1: "Los datos personales se conservarán durante el tiempo necesario para cumplir con las finalidades para las que fueron recogidos y, posteriormente, durante los plazos de prescripción legal aplicables.",
+        privacy_storage2: "En caso de no existir obligación legal, los datos se conservarán mientras no solicite su supresión y siempre que exista una base legítima para su tratamiento.",
+        privacy_rights_intro: "Como titular de los datos personales, usted tiene derecho a:",
+        privacy_rights1: "<strong>Acceso:</strong> Conocer qué datos tratamos sobre usted",
+        privacy_rights2: "<strong>Rectificación:</strong> Solicitar la corrección de datos inexactos",
+        privacy_rights3: "<strong>Supresión:</strong> Solicitar la eliminación de sus datos",
+        privacy_rights4: "<strong>Oposición:</strong> Oponerse al tratamiento de sus datos",
+        privacy_rights5: "<strong>Limitación:</strong> Solicitar la limitación del tratamiento",
+        privacy_rights6: "<strong>Portabilidad:</strong> Recibir sus datos en formato estructurado",
+        privacy_rights7: "<strong>Revocación del consentimiento:</strong> Retirar el consentimiento en cualquier momento",
+        privacy_rights_contact: "Para ejercer estos derechos, puede contactarnos a través de:",
+        privacy_rights_contactinfo: "Email: fagrupinmobiliaria@gmail.com<br>Dirección postal: Avenida Josep Tarradellas 134 bajos, 08029 Barcelona",
+        privacy_security: "FA GRUP ha implementado medidas técnicas y organizativas apropiadas para garantizar la seguridad de sus datos personales y protegerlos contra accesos no autorizados, pérdida, destrucción o alteración.",
+        privacy_cookies: "Nuestro sitio web utiliza cookies para mejorar la experiencia del usuario. Para más información, consulte nuestra Política de Cookies.",
+        privacy_modifications: "FA GRUP se reserva el derecho de modificar esta Política de Privacidad para adaptarla a cambios legislativos o de nuestros servicios. Le recomendamos revisar periódicamente esta página.",
+        privacy_claims: "Si considera que el tratamiento de sus datos personales no cumple con la normativa, tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (www.aepd.es).",
+        privacy_contact_final: "Para cualquier consulta sobre esta Política de Privacidad o sobre el tratamiento de sus datos personales, puede contactarnos:",
+        privacy_contact_finalinfo: "<strong>Email:</strong> fagrupinmobiliaria@gmail.com<br><strong>Teléfono:</strong> +34 635 871 358<br><strong>Dirección:</strong> Avenida Josep Tarradellas 134 bajos, 08029 Barcelona, España",
         // --- SOBRE NOSOTROS ---
         "about-hero-title": "Sobre Nosotros",
         "about-hero-subtitle": "Conoce quiénes somos y qué nos diferencia",
@@ -159,6 +196,46 @@ const translations = {
         "footer-back": "Volver al simulador"
     },
     ca: {
+        privacy_collect_intro: "FA GRUP pot recollir els següents tipus de dades personals:",
+        privacy_collect_id: "<strong>Dades d'identificació:</strong> Nom, cognoms, DNI/NIE",
+        privacy_collect_contact: "<strong>Dades de contacte:</strong> Adreça de correu electrònic, número de telèfon, adreça postal",
+        privacy_collect_nav: "<strong>Dades de navegació:</strong> Adreça IP, tipus de navegador, pàgines visitades",
+        privacy_collect_service: "<strong>Dades relacionades amb serveis:</strong> Informació sobre propietats d'interès, preferències de cerca",
+        privacy_purpose_intro: "Les dades personals recollides seran tractades per a les següents finalitats:",
+        privacy_purpose1: "Gestió de consultes i sol·licituds d'informació",
+        privacy_purpose2: "Prestació de serveis immobiliaris, assegurances i viatges",
+        privacy_purpose3: "Enviament de comunicacions comercials sobre els nostres serveis (amb el seu consentiment previ)",
+        privacy_purpose4: "Compliment d'obligacions legals i contractuals",
+        privacy_purpose5: "Millora dels nostres serveis i experiència de l'usuari",
+        privacy_legal_intro: "El tractament de les seves dades personals es basa en:",
+        privacy_legal1: "<strong>Consentiment:</strong> Per a l'enviament de comunicacions comercials",
+        privacy_legal2: "<strong>Execució de contracte:</strong> Per a la prestació de serveis sol·licitats",
+        privacy_legal3: "<strong>Interès legítim:</strong> Per a la gestió i millora dels nostres serveis",
+        privacy_legal4: "<strong>Obligació legal:</strong> Per complir amb normatives aplicables",
+        privacy_recipients_intro: "Les seves dades personals podran ser comunicades a:",
+        privacy_recipients1: "Empreses associades del grup FA GRUP per a la prestació de serveis",
+        privacy_recipients2: "Proveïdors de serveis tecnològics i d'emmagatzematge",
+        privacy_recipients3: "Administracions públiques quan sigui legalment requerit",
+        privacy_recipients4: "Entitats financeres per a la gestió de pagaments",
+        privacy_recipients5: "No realitzem transferències internacionals de dades fora de l'Espai Econòmic Europeu.",
+        privacy_storage1: "Les dades personals es conservaran durant el temps necessari per complir amb les finalitats per a les quals van ser recollides i, posteriorment, durant els terminis de prescripció legal aplicables.",
+        privacy_storage2: "En cas de no existir obligació legal, les dades es conservaran mentre no en sol·liciti la supressió i sempre que existeixi una base legítima per al seu tractament.",
+        privacy_rights_intro: "Com a titular de les dades personals, vostè té dret a:",
+        privacy_rights1: "<strong>Accés:</strong> Conèixer quines dades tractem sobre vostè",
+        privacy_rights2: "<strong>Rectificació:</strong> Sol·licitar la correcció de dades inexactes",
+        privacy_rights3: "<strong>Supressió:</strong> Sol·licitar l'eliminació de les seves dades",
+        privacy_rights4: "<strong>Oposició:</strong> Oposar-se al tractament de les seves dades",
+        privacy_rights5: "<strong>Limitació:</strong> Sol·licitar la limitació del tractament",
+        privacy_rights6: "<strong>Portabilitat:</strong> Rebre les seves dades en format estructurat",
+        privacy_rights7: "<strong>Revocació del consentiment:</strong> Retirar el consentiment en qualsevol moment",
+        privacy_rights_contact: "Per exercir aquests drets, pot contactar-nos a través de:",
+        privacy_rights_contactinfo: "Email: fagrupinmobiliaria@gmail.com<br>Adreça postal: Avinguda Josep Tarradellas 134 baixos, 08029 Barcelona",
+        privacy_security: "FA GRUP ha implementat mesures tècniques i organitzatives apropiades per garantir la seguretat de les seves dades personals i protegir-les contra accessos no autoritzats, pèrdua, destrucció o alteració.",
+        privacy_cookies: "El nostre lloc web utilitza galetes per millorar l'experiència de l'usuari. Per a més informació, consulti la nostra Política de Galetes.",
+        privacy_modifications: "FA GRUP es reserva el dret de modificar aquesta Política de Privacitat per adaptar-la a canvis legislatius o dels nostres serveis. Li recomanem revisar periòdicament aquesta pàgina.",
+        privacy_claims: "Si considera que el tractament de les seves dades personals no compleix amb la normativa, té dret a presentar una reclamació davant l'Agència Espanyola de Protecció de Dades (www.aepd.es).",
+        privacy_contact_final: "Per a qualsevol consulta sobre aquesta Política de Privacitat o sobre el tractament de les seves dades personals, pot contactar-nos:",
+        privacy_contact_finalinfo: "<strong>Email:</strong> fagrupinmobiliaria@gmail.com<br><strong>Telèfon:</strong> +34 635 871 358<br><strong>Adreça:</strong> Avinguda Josep Tarradellas 134 baixos, 08029 Barcelona, Espanya",
         // --- SOBRE NOSALTRES ---
         "about-hero-title": "Sobre Nosaltres",
         "about-hero-subtitle": "Descobreix qui som i què ens diferencia",
@@ -280,6 +357,46 @@ const translations = {
         "footer-back": "Tornar al simulador"
     },
     fr: {
+        privacy_collect_intro: "FA GRUP peut collecter les types de données personnelles suivants :",
+        privacy_collect_id: "<strong>Données d'identification :</strong> Nom, prénom, CNI/NIE",
+        privacy_collect_contact: "<strong>Données de contact :</strong> Adresse e-mail, numéro de téléphone, adresse postale",
+        privacy_collect_nav: "<strong>Données de navigation :</strong> Adresse IP, type de navigateur, pages visitées",
+        privacy_collect_service: "<strong>Données liées aux services :</strong> Informations sur les biens d'intérêt, préférences de recherche",
+        privacy_purpose_intro: "Les données personnelles collectées seront traitées aux fins suivantes :",
+        privacy_purpose1: "Gestion des demandes et des requêtes d'information",
+        privacy_purpose2: "Fourniture de services immobiliers, d'assurances et de voyages",
+        privacy_purpose3: "Envoi de communications commerciales sur nos services (avec votre consentement préalable)",
+        privacy_purpose4: "Respect des obligations légales et contractuelles",
+        privacy_purpose5: "Amélioration de nos services et de l'expérience utilisateur",
+        privacy_legal_intro: "Le traitement de vos données personnelles est basé sur :",
+        privacy_legal1: "<strong>Consentement :</strong> Pour l'envoi de communications commerciales",
+        privacy_legal2: "<strong>Exécution du contrat :</strong> Pour la fourniture des services demandés",
+        privacy_legal3: "<strong>Intérêt légitime :</strong> Pour la gestion et l'amélioration de nos services",
+        privacy_legal4: "<strong>Obligation légale :</strong> Pour se conformer aux réglementations applicables",
+        privacy_recipients_intro: "Vos données personnelles peuvent être communiquées à :",
+        privacy_recipients1: "Sociétés associées du groupe FA GRUP pour la fourniture de services",
+        privacy_recipients2: "Fournisseurs de services technologiques et de stockage",
+        privacy_recipients3: "Administrations publiques lorsque cela est légalement requis",
+        privacy_recipients4: "Établissements financiers pour la gestion des paiements",
+        privacy_recipients5: "Nous ne réalisons pas de transferts internationaux de données en dehors de l'Espace économique européen.",
+        privacy_storage1: "Les données personnelles seront conservées pendant la durée nécessaire pour atteindre les finalités pour lesquelles elles ont été collectées et, par la suite, pendant les délais de prescription légaux applicables.",
+        privacy_storage2: "En l'absence d'obligation légale, les données seront conservées tant que vous n'en demanderez pas la suppression et tant qu'il existera une base légitime pour leur traitement.",
+        privacy_rights_intro: "En tant que titulaire des données personnelles, vous avez le droit de :",
+        privacy_rights1: "<strong>Accès :</strong> Savoir quelles données nous traitons à votre sujet",
+        privacy_rights2: "<strong>Rectification :</strong> Demander la correction de données inexactes",
+        privacy_rights3: "<strong>Suppression :</strong> Demander la suppression de vos données",
+        privacy_rights4: "<strong>Opposition :</strong> Vous opposer au traitement de vos données",
+        privacy_rights5: "<strong>Limitation :</strong> Demander la limitation du traitement",
+        privacy_rights6: "<strong>Portabilité :</strong> Recevoir vos données dans un format structuré",
+        privacy_rights7: "<strong>Révocation du consentement :</strong> Retirer le consentement à tout moment",
+        privacy_rights_contact: "Pour exercer ces droits, vous pouvez nous contacter via :",
+        privacy_rights_contactinfo: "Email : fagrupinmobiliaria@gmail.com<br>Adresse postale : Avenida Josep Tarradellas 134 bajos, 08029 Barcelone",
+        privacy_security: "FA GRUP a mis en place des mesures techniques et organisationnelles appropriées pour garantir la sécurité de vos données personnelles et les protéger contre tout accès non autorisé, perte, destruction ou altération.",
+        privacy_cookies: "Notre site web utilise des cookies pour améliorer l'expérience utilisateur. Pour plus d'informations, consultez notre Politique de Cookies.",
+        privacy_modifications: "FA GRUP se réserve le droit de modifier cette Politique de Confidentialité pour l'adapter aux changements législatifs ou à nos services. Nous vous recommandons de consulter régulièrement cette page.",
+        privacy_claims: "Si vous estimez que le traitement de vos données personnelles n'est pas conforme à la réglementation, vous avez le droit d'introduire une réclamation auprès de l'Agence espagnole de protection des données (www.aepd.es).",
+        privacy_contact_final: "Pour toute question concernant cette Politique de Confidentialité ou le traitement de vos données personnelles, vous pouvez nous contacter :",
+        privacy_contact_finalinfo: "<strong>Email :</strong> fagrupinmobiliaria@gmail.com<br><strong>Téléphone :</strong> +34 635 871 358<br><strong>Adresse :</strong> Avenida Josep Tarradellas 134 bajos, 08029 Barcelone, Espagne",
         // --- À PROPOS DE NOUS ---
         "about-hero-title": "À propos de nous",
         "about-hero-subtitle": "Découvrez qui nous sommes et ce qui nous distingue",
@@ -493,20 +610,27 @@ function update() {
     if(els.monthlyPayment) els.monthlyPayment.textContent = formatEur(monthly);
 
     // Calculs additionnels pour la vue "Resultado Financiero"
-    const totalCostValue = monthly * months;
-    const interestTotalValue = totalCostValue - loanNeeded;
+    // Le coût total payé = mensualités totales + gastos de compra
+    const totalCostValue = (monthly * months) + purchaseCosts;
+    const interestTotalValue = (monthly * months) - loanNeeded;
 
     if(els.totalCost) els.totalCost.textContent = formatEur(totalCostValue);
     if(els.interestTotal) els.interestTotal.textContent = formatEur(interestTotalValue);
     if(els.savingsTotal) els.savingsTotal.textContent = formatEur(down + 1500); // Ajout frais fixes estimé
 
     // --- RATIO 35% (Gestion des styles personnalisés) ---
-    const ratio = income > 0 ? (monthly / income) * 100 : 0;
-    if(els.affordabilityValue) els.affordabilityValue.textContent = ratio.toFixed(1) + "%";
-    if(els.affordabilityStatus && els.affordabilityLabel) {
-        const isGood = ratio <= 35;
-        els.affordabilityStatus.className = isGood ? "ratio-box affordability-status-light" : "ratio-box affordability-status-bad";
-        els.affordabilityLabel.textContent = isGood ? "Excelente" : "Riesgo Elevado";
+    if (income > 0) {
+        const ratio = (monthly / income) * 100;
+        if(els.affordabilityValue) els.affordabilityValue.textContent = ratio.toFixed(1) + "%";
+        if(els.affordabilityStatus && els.affordabilityLabel) {
+            const isGood = ratio <= 35;
+            els.affordabilityStatus.className = isGood ? "ratio-box affordability-status-light" : "ratio-box affordability-status-bad";
+            els.affordabilityLabel.textContent = isGood ? "Excelente" : "Riesgo Elevado";
+        }
+    } else {
+        if(els.affordabilityValue) els.affordabilityValue.textContent = "--%";
+        if(els.affordabilityLabel) els.affordabilityLabel.textContent = "";
+        if(els.affordabilityStatus) els.affordabilityStatus.className = "ratio-box";
     }
 
     renderTable(loanNeeded, rate, monthly, months);

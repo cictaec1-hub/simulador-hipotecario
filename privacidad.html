@@ -157,7 +157,7 @@
                 // Traduction des data-translate
                 document.querySelectorAll('[data-translate]').forEach(el => {
                     const key = el.getAttribute('data-translate');
-                    if (t[key]) el.textContent = t[key];
+                    if (t[key]) el.innerHTML = t[key];
                 });
                 // Traduction du bouton langue
                 const langText = { es: "ES", ca: "CA", fr: "FR" };
