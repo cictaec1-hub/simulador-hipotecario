@@ -701,17 +701,50 @@ function reset() {
         // Sync Apport Amount <-> Percent
         if ([els.downPaymentAmount, els.downPaymentPercent].includes(e.target) && price > 0) {
             if (e.target === els.downPaymentAmount) {
-                els.downPaymentPercent.value = ((parseFloat(e.target.value) / price) * 100).toFixed(1);
+                let percent = ((parseFloat(e.target.value) / price) * 100);
+                if (percent > 100) percent = 100;
+                els.downPaymentPercent.value = percent.toFixed(1);
+                // Si l'utilisateur entre un montant supérieur au prix, on limite aussi l'input
+                if (parseFloat(e.target.value) > price) {
+                    els.downPaymentAmount.value = price;
+                }
             } else {
-                els.downPaymentAmount.value = Math.round((parseFloat(e.target.value) / 100) * price);
+                // Limite le pourcentage à 100
+                let percent = parseFloat(e.target.value);
+                if (percent > 100) {
+                    percent = 100;
+                    els.downPaymentPercent.value = 100;
+                }
+                els.downPaymentAmount.value = Math.round((percent / 100) * price);
             }
         }
         // Sync Purchase Costs <-> Percent
         if ([els.purchaseCosts, els.purchaseCostsPercent].includes(e.target) && price > 0) {
             if (e.target === els.purchaseCosts) {
-                els.purchaseCostsPercent.value = ((parseFloat(e.target.value) / price) * 100).toFixed(2);
+                let percent = ((parseFloat(e.target.value) / price) * 100);
+                if (percent > 100) percent = 100;
+                els.purchaseCostsPercent.value = percent.toFixed(1);
+                // Si l'utilisateur entre un montant supérieur au prix, on limite aussi l'input
+                if (parseFloat(e.target.value) > price) {
+                    els.purchaseCosts.value = price;
+                }
             } else {
-                els.purchaseCosts.value = Math.round((parseFloat(e.target.value) / 100) * price);
+                // Limite le pourcentage à 100
+                let percent = parseFloat(e.target.value);
+                if (percent > 100) {
+                    percent = 100;
+                    els.purchaseCostsPercent.value = 100;
+                }
+                els.purchaseCosts.value = Math.round((percent / 100) * price);
+            }
+        }
+        // Limite Tasa anual (TIN) à 100% max
+        if (e.target === els.tin) {
+            let tinValue = parseFloat(e.target.value);
+            if (tinValue > 100) {
+                els.tin.value = 100;
+            } else if (tinValue < 0) {
+                els.tin.value = 0;
             }
         }
         update();
