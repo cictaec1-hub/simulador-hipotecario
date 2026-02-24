@@ -11,7 +11,7 @@ function updateMonthsYears() {
     if (!monthsInput || !monthsYears) return;
     const lang = window.currentLang || "es";
     const months = parseInt(monthsInput.value) || 0;
-    const years = (months / 12).toFixed(1);
+    const years = Math.floor(months / 12);
     monthsYears.textContent = years + " " + yearText[lang];
 }
 
@@ -620,7 +620,8 @@ function update() {
 
     // --- RATIO 35% (Gestion des styles personnalisés) ---
     if (income > 0) {
-        const ratio = (monthly / income) * 100;
+        let ratio = (monthly / income) * 100;
+        if (ratio > 100) ratio = 100;
         if(els.affordabilityValue) els.affordabilityValue.textContent = ratio.toFixed(1) + "%";
         if(els.affordabilityStatus && els.affordabilityLabel) {
             const isGood = ratio <= 35;
@@ -745,6 +746,15 @@ function reset() {
                 els.tin.value = 100;
             } else if (tinValue < 0) {
                 els.tin.value = 0;
+            }
+        }
+        // Limite Plazo (meses) à 480 max
+        if (e.target === els.months) {
+            let monthsValue = parseInt(e.target.value);
+            if (monthsValue > 480) {
+                els.months.value = 480;
+            } else if (monthsValue < 1) {
+                els.months.value = 1;
             }
         }
         update();
